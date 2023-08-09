@@ -1,5 +1,5 @@
 [
-	{ "id": "1", "name": "Basketball", "price": "100", "size": "M" },
+	{ "id": 1, "name": "Basketball", "price": "100", "size": "M" },
 	{ "id": 23, "name": "Lebron XX", "price": "500", "size": "L" },
 	{ "id": 28, "name": "Lebron XX", "price": "500", "size": "L" }
 ]

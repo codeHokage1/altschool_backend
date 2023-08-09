@@ -78,6 +78,24 @@ const handleRequest = (req, res) => {
 		res.write(JSON.stringify({ message: "Item Added", data: item }));
 		return res.end();
 	}
+
+	// Get one item
+	if (req.url.startsWith("/v1/items") && req.method === "GET") {
+		const id = Number(req.url.split("/")[3]);
+		const foundItem = items.find((item) => item.id === Number(id));
+
+		if (!foundItem) {
+			res.setHeader("Content-Type", "application/json");
+			res.writeHead(404);
+			res.write(JSON.stringify({ message: "Item not found", data: null }));
+			return res.end();
+		}
+
+		res.setHeader("Content-Type", "application/json");
+		res.writeHead(200);
+		res.write(JSON.stringify({ message: "Items founded", data: foundItem }));
+		return res.end();
+	}
 };
 
 const server = http.createServer((req, res) =>
