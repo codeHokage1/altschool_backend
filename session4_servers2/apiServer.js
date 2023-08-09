@@ -30,6 +30,7 @@ const handleRequest = (req, res) => {
 		return res.end();
 	}
 
+	// Create a new user
 	if (req.url === "/v1/students" && req.method === "POST") {
 		const newStudent = {
 			id: Math.floor(Math.random() * 700),
@@ -42,6 +43,7 @@ const handleRequest = (req, res) => {
 		return res.end();
 	}
 
+	// Get all users
 	if (req.url === "/v1/students" && req.method === "GET") {
 		res.setHeader("Content-Type", "application/json");
 		res.writeHead(200);
@@ -53,6 +55,7 @@ const handleRequest = (req, res) => {
 		return res.end();
 	}
 
+	// Get particular user by id
 	if (req.url.startsWith("/v1/students") && req.method === "GET") {
 		const id = Number(req.url.split('/')[3]);
 		const foundStudent = students.find(student => student.id === id);
@@ -64,6 +67,24 @@ const handleRequest = (req, res) => {
 		} else {
 			res.write(JSON.stringify({ message: `Student with id ${id} not found`, data: null }));
 		}
+		return res.end();
+	}
+
+	// Update details of particular user by id
+	if (req.url.startsWith("/v1/students") && req.method === "PUT") {
+		const id = Number(req.url.split('/')[3]);
+		const foundStudent = students.find(student => student.id === id);
+
+		res.setHeader("Content-Type", "application/json");
+		res.writeHead(200);
+		if (!foundStudent) {
+			res.write(JSON.stringify({ message: `Student with id ${id} not found`, data: null }));
+			return res.end();
+		}
+
+		console.log(Object.entries(req.body))
+		Object.entries(req.body).map(info => foundStudent[info[0]] = info[1]);
+		res.write(JSON.stringify({ message: "Student Updated", data: foundStudent }));
 		return res.end();
 	}
 
