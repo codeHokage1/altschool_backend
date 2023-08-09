@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev-web": "nodemon webServer.js",
+    "start": "node apiServer.js",
+    "dev": "nodemon webServer.js",
     "dev-api": "nodemon apiServer.js"
   },
   "keywords": [],
