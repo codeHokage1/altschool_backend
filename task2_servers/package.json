@@ -4,10 +4,10 @@
   "description": "",
   "main": "apiServer.js",
   "scripts": {
-    "start:web": "node webServer.js",
-    "start:api": "node apiServer.js",
-    "dev:web": "nodemon webServer.js",
-    "dev:api": "nodemon apiServer.js"
+    "start:web": "node q1_webServer.js",
+    "start:api": "node q2_apiServer.js",
+    "dev:web": "nodemon q1_webServer.js",
+    "dev:api": "nodemon q2_apiServer.js"
   },
   "keywords": [],
   "author": "",
