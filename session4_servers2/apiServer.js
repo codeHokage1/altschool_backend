@@ -88,6 +88,23 @@ const handleRequest = (req, res) => {
 		return res.end();
 	}
 
+	// Delete particular user by id
+	if (req.url.startsWith("/v1/students") && req.method === "DELETE") {
+		const id = Number(req.url.split('/')[3]);
+		const foundStudent = students.find(student => student.id === id);
+
+		res.setHeader("Content-Type", "application/json");
+		res.writeHead(200);
+		if (!foundStudent) {
+			res.write(JSON.stringify({ message: `Student with id ${id} not found`, data: null }));
+			return res.end();
+		}
+		
+		students.splice(students.findIndex(student => student.id === id), 1);
+		res.write(JSON.stringify({ message: "Student Deleted", data: students }));
+		return res.end();
+	}
+
 };
 
 const server = http.createServer((req, res) =>
