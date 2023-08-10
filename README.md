@@ -5,7 +5,7 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 ## Session 1 - Intro to NodeJS
 
 ## Session 2 - NodeJS Core Modules
-
+- Assignment: https://docs.google.com/document/d/1cX1TMgn69-n7Qw1blAAParVZ88rRuRevg1gNkkH_jKM/edit
 ## Session 3 - Intro to Servers and APIS
 
 ## Session 4 - Building Web and API servers
