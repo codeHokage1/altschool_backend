@@ -1,8 +1,10 @@
 const http = require("http");
 const fs = require("fs");
 
+// import all items from items.json
 const items = JSON.parse(fs.readFileSync("./data/items.json", "utf-8"));
 
+// function that helps get data in the body of request
 const bodyParser = (req, res, cb) => {
 	let reqBody = "";
 	req.on("data", (chunk) => {
@@ -15,20 +17,23 @@ const bodyParser = (req, res, cb) => {
 	});
 };
 
+// function that handles the responses to be sent
+const handleResponse = (req, res, statusCode, info) => {
+	res.setHeader("Content-Type", "application/json");
+	res.writeHead(statusCode);
+	res.write(JSON.stringify(info));
+	return res.end();
+};
+
+// function that handles request
 const handleRequest = (req, res) => {
 	if (req.url === "/") {
-		res.setHeader("Content-Type", "text/html");
-		res.writeHead(200);
-		res.write("Welcome to my API!");
-		return res.end();
+		return handleResponse(req, res, 200, "Welcome to my API!");
 	}
 
 	// Get all items
 	if (req.url === "/v1/items" && req.method === "GET") {
-		res.setHeader("Content-Type", "application/json");
-		res.writeHead(200);
-		res.write(JSON.stringify({ message: "success", data: items }));
-		return res.end();
+		return handleResponse(req, res, 200, { message: "success", data: items });
 	}
 
 	// Create a new item
@@ -40,19 +45,15 @@ const handleRequest = (req, res) => {
 		items.push(item);
 		fs.writeFile("./data/items.json", JSON.stringify(items), (err) => {
 			if (err) {
-				console.log(err.message);
-				res.setHeader("Content-Type", "application/json");
-				res.writeHead(500);
-				res.write(JSON.stringify({ message: err.message, data: null }));
-				return res.end();
+				return handleResponse(req, res, 500, {
+					message: err.message,
+					data: null,
+				});
 			}
 
 			console.log("New item added to the database");
 		});
-		res.setHeader("Content-Type", "application/json");
-		res.writeHead(201);
-		res.write(JSON.stringify({ message: "Item Added", data: item }));
-		return res.end();
+		return handleResponse(req, res, 201, { message: "Item Added", data: item });
 	}
 
 	// Get one item
@@ -61,16 +62,16 @@ const handleRequest = (req, res) => {
 		const foundItem = items.find((item) => item.id === Number(id));
 
 		if (!foundItem) {
-			res.setHeader("Content-Type", "application/json");
-			res.writeHead(404);
-			res.write(JSON.stringify({ message: "Item not found", data: null }));
-			return res.end();
+			return handleResponse(req, res, 404, {
+				message: "Item not found",
+				data: null,
+			});
 		}
 
-		res.setHeader("Content-Type", "application/json");
-		res.writeHead(200);
-		res.write(JSON.stringify({ message: "Items founded", data: foundItem }));
-		return res.end();
+		return handleResponse(req, res, 200, {
+			message: "Items founded",
+			data: foundItem,
+		});
 	}
 
 	// Update an item
@@ -79,10 +80,10 @@ const handleRequest = (req, res) => {
 		const foundItem = items.find((item) => item.id === Number(id));
 
 		if (!foundItem) {
-			res.setHeader("Content-Type", "application/json");
-			res.writeHead(404);
-			res.write(JSON.stringify({ message: "Item not found", data: null }));
-			return res.end();
+			return handleResponse(req, res, 404, {
+				message: "Item not found",
+				data: null,
+			});
 		}
 
 		items.map((item) => {
@@ -90,53 +91,54 @@ const handleRequest = (req, res) => {
 				Object.entries(req.body).map((info) => (item[info[0]] = info[1]));
 			}
 		});
-        fs.writeFile("./data/items.json", JSON.stringify(items), (err) => {
+		fs.writeFile("./data/items.json", JSON.stringify(items), (err) => {
 			if (err) {
-				console.log(err.message);
-				res.setHeader("Content-Type", "application/json");
-				res.writeHead(500);
-				res.write(JSON.stringify({ message: err.message, data: null }));
-				return res.end();
+				return handleResponse(req, res, 500, {
+					message: err.message,
+					data: null,
+				});
 			}
 
 			console.log("Item updated in the database");
 		});
 
-		res.setHeader("Content-Type", "application/json");
-		res.writeHead(201);
-		res.write(JSON.stringify({ message: "Item Updated", data: foundItem }));
-		return res.end();
+		return handleResponse(req, res, 201, {
+			message: "Items Updated",
+			data: foundItem,
+		});
 	}
 
-    // Delete an item
+	// Delete an item
 	if (req.url.startsWith("/v1/items") && req.method === "DELETE") {
 		const id = Number(req.url.split("/")[3]);
 		const foundItem = items.find((item) => item.id === Number(id));
 
 		if (!foundItem) {
-			res.setHeader("Content-Type", "application/json");
-			res.writeHead(404);
-			res.write(JSON.stringify({ message: "Item not found", data: null }));
-			return res.end();
+			return handleResponse(req, res, 404, {
+				message: "Item not found",
+				data: null,
+			});
 		}
 
-		items.splice(items.findIndex(item => item.id === id), 1);
-        fs.writeFile("./data/items.json", JSON.stringify(items), (err) => {
+		items.splice(
+			items.findIndex((item) => item.id === id),
+			1
+		);
+		fs.writeFile("./data/items.json", JSON.stringify(items), (err) => {
 			if (err) {
-				console.log(err.message);
-				res.setHeader("Content-Type", "application/json");
-				res.writeHead(500);
-				res.write(JSON.stringify({ message: err.message, data: null }));
-				return res.end();
+				return handleResponse(req, res, 500, {
+					message: err.message,
+					data: null,
+				});
 			}
 
 			console.log("Item deleted from database");
 		});
 
-		res.setHeader("Content-Type", "application/json");
-		res.writeHead(201);
-		res.write(JSON.stringify({ message: "Item Deleted", data: null }));
-		return res.end();
+		return handleResponse(req, res, 201, {
+			message: "Item Deleted",
+			data: null,
+		});
 	}
 };
 
