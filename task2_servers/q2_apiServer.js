@@ -99,12 +99,43 @@ const handleRequest = (req, res) => {
 				return res.end();
 			}
 
-			console.log("New item added to the database");
+			console.log("Item updated in the database");
 		});
 
 		res.setHeader("Content-Type", "application/json");
 		res.writeHead(201);
 		res.write(JSON.stringify({ message: "Item Updated", data: foundItem }));
+		return res.end();
+	}
+
+    // Delete an item
+	if (req.url.startsWith("/v1/items") && req.method === "DELETE") {
+		const id = Number(req.url.split("/")[3]);
+		const foundItem = items.find((item) => item.id === Number(id));
+
+		if (!foundItem) {
+			res.setHeader("Content-Type", "application/json");
+			res.writeHead(404);
+			res.write(JSON.stringify({ message: "Item not found", data: null }));
+			return res.end();
+		}
+
+		items.splice(items.findIndex(item => item.id === id), 1);
+        fs.writeFile("./data/items.json", JSON.stringify(items), (err) => {
+			if (err) {
+				console.log(err.message);
+				res.setHeader("Content-Type", "application/json");
+				res.writeHead(500);
+				res.write(JSON.stringify({ message: err.message, data: null }));
+				return res.end();
+			}
+
+			console.log("Item deleted from database");
+		});
+
+		res.setHeader("Content-Type", "application/json");
+		res.writeHead(201);
+		res.write(JSON.stringify({ message: "Item Deleted", data: null }));
 		return res.end();
 	}
 };
