@@ -29,30 +29,6 @@ const handleRequest = (req, res) => {
 		res.writeHead(200);
 		res.write(JSON.stringify({ message: "success", data: items }));
 		return res.end();
-
-		// fs.readFile("./data/items.json", (err, data) => {
-		// 	if (err) {
-		// 		console.log(err.message);
-		// 		res.setHeader("Content-Type", "application/json");
-		// 		res.writeHead(500);
-		// 		res.write(JSON.stringify({ message: err.message, data: null }));
-		// 		return res.end();
-		// 	}
-
-		//     try {
-		//         const items = JSON.parse(data);
-		//         res.setHeader("Content-Type", "application/json");
-		//         res.writeHead(200);
-		//         res.write(JSON.stringify({ message: "success", data: items }));
-		//         return res.end();
-		//     } catch (error) {
-		//         console.log(error.message);
-		// 		res.setHeader("Content-Type", "application/json");
-		// 		res.writeHead(500);
-		// 		res.write(JSON.stringify({ message: err.message, data: null }));
-		// 		return res.end();
-		//     }
-		// });
 	}
 
 	// Create a new item
@@ -94,6 +70,41 @@ const handleRequest = (req, res) => {
 		res.setHeader("Content-Type", "application/json");
 		res.writeHead(200);
 		res.write(JSON.stringify({ message: "Items founded", data: foundItem }));
+		return res.end();
+	}
+
+	// Update an item
+	if (req.url.startsWith("/v1/items") && req.method === "PUT") {
+		const id = Number(req.url.split("/")[3]);
+		const foundItem = items.find((item) => item.id === Number(id));
+
+		if (!foundItem) {
+			res.setHeader("Content-Type", "application/json");
+			res.writeHead(404);
+			res.write(JSON.stringify({ message: "Item not found", data: null }));
+			return res.end();
+		}
+
+		items.map((item) => {
+			if (item.id === id) {
+				Object.entries(req.body).map((info) => (item[info[0]] = info[1]));
+			}
+		});
+        fs.writeFile("./data/items.json", JSON.stringify(items), (err) => {
+			if (err) {
+				console.log(err.message);
+				res.setHeader("Content-Type", "application/json");
+				res.writeHead(500);
+				res.write(JSON.stringify({ message: err.message, data: null }));
+				return res.end();
+			}
+
+			console.log("New item added to the database");
+		});
+
+		res.setHeader("Content-Type", "application/json");
+		res.writeHead(201);
+		res.write(JSON.stringify({ message: "Item Updated", data: foundItem }));
 		return res.end();
 	}
 };
