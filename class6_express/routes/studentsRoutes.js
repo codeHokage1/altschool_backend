@@ -7,11 +7,7 @@ studentsRoutes
 	.get("/", studentsController.getAllStudents)
 	.get("/:id", studentsController.getOneStudents)
 	.post("/", studentsController.createStudent)
-	.put("/:id", (req, res) => {
-		return res.send("Update student");
-	})
-	.delete("/:id", (req, res) => {
-
-    });
+	.put("/:id", studentsController.updateStudent)
+	.delete("/:id", studentsController.deleteStudent);
 
 module.exports = studentsRoutes;

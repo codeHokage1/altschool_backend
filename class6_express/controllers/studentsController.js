@@ -72,3 +72,84 @@ exports.createStudent = async (req, res) => {
 		});
 	}
 };
+
+// Update a student
+exports.updateStudent = async (req, res) => {
+	const id = req.params.id;
+	try {
+		const students = JSON.parse(await fs.readFile("./data/students.json", "utf8"));
+		const foundStudent = students.find((student) => student.id === Number(id));
+		if (!foundStudent) {
+			return res.status(404).json({
+				message: "Student not found",
+				data: null
+			});
+		}
+
+		students.map((student) => {
+			if (student.id === Number(id)) {
+				Object.entries(req.body).map((info) => (student[info[0]] = info[1]));
+			}
+		});
+		await fs.writeFile("./data/students.json", JSON.stringify(students), (err) => {
+			if (err) {
+				return res.status(500).json({
+					message: err.message,
+					data: null
+				});
+			}
+
+			console.log("Student data updated");
+		});
+
+		return res.status(201).json({
+			message: "Student updated",
+			data: null
+		});
+	} catch (err) {
+		return res.status(500).json({
+			message: err.message,
+			data: null
+		});
+	}
+};
+
+// Delete a student
+exports.deleteStudent = async (req, res) => {
+	const id = req.params.id;
+	try {
+		const students = JSON.parse(await fs.readFile("./data/students.json", "utf8"));
+		const foundStudent = students.find((student) => student.id === Number(id));
+		if (!foundStudent) {
+			return res.status(404).json({
+				message: "Student not found",
+				data: null
+			});
+		}
+
+		students.splice(
+			students.findIndex((student) => student.id === id),
+			1
+		);
+		await fs.writeFile("./data/students.json", JSON.stringify(students), (err) => {
+			if (err) {
+				return res.status(500).json({
+					message: err.message,
+					data: null
+				});
+			}
+
+			console.log("Student deleted");
+		});
+
+		return res.status(201).json({
+			message: "Student deleted",
+			data: null
+		});
+	} catch (err) {
+		return res.status(500).json({
+			message: err.message,
+			data: null
+		});
+	}
+};
