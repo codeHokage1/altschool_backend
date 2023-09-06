@@ -1,0 +1,20 @@
+[
+	{
+		"username": "Farhan",
+		"password": "test1234",
+		"apiKey": "7d9b8e5f-a589-437e-a066-9f616028c51d",
+		"role": "admin"
+	},
+	{
+		"username": "Ayomide",
+		"password": "test5678",
+		"apiKey": "8db7276d-7a24-49c6-8c1f-8ae667a32c34",
+		"role": "user"
+	},
+	{
+		"username": "Sodiq",
+		"password": "test0000",
+		"apiKey": "b6f3dec4-6005-4280-8c86-325bbe6242c7",
+		"role": "user"
+	}
+]
