@@ -17,3 +17,8 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 - Class exercise: Converting the exercise in session 4 to an app with express
 - Assignment: https://docs.google.com/document/d/1O2WK5zW8-mWbuzZ6e_vHLnidvVzq8zp-81rpkntZ3uw/edit
   
+## Session 8 - Authentication and Authorization
+- Class exercise: Adding authentication and authorization to class exercise on students api
+- Assignment: https://docs.google.com/document/d/1RbpLmKOPXpMwUv4u0pqaPPQziUgqWApGzp64JLaDVC4/edit
+
+  
