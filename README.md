@@ -2,6 +2,18 @@
 
 This repo contains all tasks and assignments during my study in Backend Engineering at AltSchool Africa.
 
+## Tools & Techs I've worked with:
+- Javascript
+- NodeJS
+- Express
+- SQL
+- MySQL
+- Sequelize
+- Postman
+- Thunderclient
+- Git & GitHub
+- 
+
 ## Session 1 - Intro to NodeJS
 
 ## Session 2 - NodeJS Core Modules
@@ -21,4 +33,8 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 - Class exercise: Adding authentication and authorization to class exercise on students api
 - Assignment: https://docs.google.com/document/d/1RbpLmKOPXpMwUv4u0pqaPPQziUgqWApGzp64JLaDVC4/edit
 
-  
+## Session 9 - Intro to Databases
+## Session 10 - Designing Databases with ERD
+## Session 11 - Databases with SQL
+
+
