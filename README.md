@@ -9,10 +9,14 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 - SQL
 - MySQL
 - Sequelize
+- MongoDB
+- MongoDB Compass & Shell
+- Mongoose
 - Postman
 - Thunderclient
 - Git & GitHub
-- 
+- npm
+- Documentation 
 
 ## Session 1 - Intro to NodeJS
 
@@ -35,6 +39,12 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 
 ## Session 9 - Intro to Databases
 ## Session 10 - Designing Databases with ERD
+- Class exercise: https://docs.google.com/document/d/1Cb0bsi07jRhtesamaCUEOjT17daiZrbePMr3ZLV6_34/edit
 ## Session 11 - Databases with SQL
+- Class exercise: Converting ERD to SQL DBs and tables; and intro to ORMs
+## Session 12 - Databases with MongoDB
+- Class exercise: Converting ERD to MongoDB documents
+- Assignment: https://docs.google.com/document/d/1bGSvyj3RrfXJWauruIvz4-C0mobOokLHsngE48-mldw/edit
+
 
 
