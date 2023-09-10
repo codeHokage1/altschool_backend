@@ -45,6 +45,7 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 ## Session 12 - Databases with MongoDB
 - Class exercise: Converting ERD to MongoDB documents
 - Assignment: https://docs.google.com/document/d/1bGSvyj3RrfXJWauruIvz4-C0mobOokLHsngE48-mldw/edit
+  - My ERD: https://drawsql.app/teams/konoha-4/diagrams/assignment-inventorydb
 
 
 
