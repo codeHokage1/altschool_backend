@@ -1,3 +1,8 @@
+-- // CREATE AND USE DATABASE
+CREATE DATABASE x_inventory;
+USE x_inventory;
+
+
 -- /// A. CREATION OF ALL ENTITIES ///
 -- Create Users entity
 CREATE TABLE users (
@@ -68,6 +73,7 @@ CREATE TABLE orders (
     description VARCHAR(255) NOT NULL,
     status ENUM ("Approved", "Rejected"),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    total_price INT,
     delivery_location VARCHAR(255) NOT NULL,
     delivered boolean DEFAULT false,
     customer_id INT NOT NULL,
