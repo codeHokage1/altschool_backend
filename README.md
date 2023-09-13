@@ -47,5 +47,5 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 - Assignment: https://docs.google.com/document/d/1bGSvyj3RrfXJWauruIvz4-C0mobOokLHsngE48-mldw/edit
   - My ERD: https://drawsql.app/teams/konoha-4/diagrams/assignment-inventorydb
 
-
-
+## Session 13 - Working with Sequelize: Migrations and Seeders
+## Sesssion 14 - Working with ODMs: Mongoose
