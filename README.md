@@ -49,3 +49,8 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 
 ## Session 13 - Working with Sequelize: Migrations and Seeders
 ## Sesssion 14 - Working with ODMs: Mongoose
+## Session 15 - User authentication and User roles, with JWT
+## Session 16 - Recap on ORMs and ODMS: Sequelize and Mongoose
+## Session 17 - Testing
+## Session 18 - Recap on Testing
+## Session 19 - Error Handling and Logging
