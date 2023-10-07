@@ -43,6 +43,9 @@ exports.createNewUser = async (req, res) => {
 };
 
 exports.signinUser = async (req, res) => {
+	// console.log(req.body);
+	// res.redirect("/users/signin");
+
 	const foundUser = await User.findOne({ email: req.body.email });
 	if (!foundUser) {
 		return res.status(404).json({
@@ -58,10 +61,12 @@ exports.signinUser = async (req, res) => {
 		});
 	}
 
-	const token = await jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_SECRET);
-	return res.json({
-		message: "Login Successful",
-		data: foundUser,
-		token
-	});
+	const token = await jwt.sign({ id: foundUser._id, email: foundUser.email }, process.env.JWT_SECRET);
+	res.cookie("token", token, { maxAge: 3600000, httpOnly: true });
+	// return res.json({
+	// 	message: "Login Successful",
+	// 	data: foundUser,
+	// 	token
+	// });
+	res.redirect("/views/success");
 };
