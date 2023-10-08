@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const usersRoutes = require("./routes/usersRoutes");
 const studentsRoutes = require("./routes/studentsRoutes");
+const viewsRoutes = require("./routes/viewsRoutes");
 const connectDB = require("./config/dbConfig");
 
 app.use(express.json());
@@ -16,10 +17,8 @@ app.get("/", (req, res) => {
 	// res.send("Welcome to my API!");
 	res.render("home");
 });
-app.get("/views/success", require("./middlewares/checkToken").checkToken, (req, res) => {
-	res.render("success", {user: req.user, userName: req.userName});
-});
 
+app.use("/views", viewsRoutes);
 app.use("/users", usersRoutes);
 app.use("/students", studentsRoutes);
 app.use("*", (req, res) => {

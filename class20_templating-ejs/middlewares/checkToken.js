@@ -6,7 +6,7 @@ exports.checkToken = async (req, res, next) => {
 		const token = req.cookies.token;
 		if (!token) {
 			return res.status(401).json({
-				message: "Authentication failed",
+				message: "Authentication failed. Please login.",
 				data: null
 			});
 		}
