@@ -71,6 +71,23 @@ exports.signin = async (req, res) => {
 	}
 };
 
+exports.signout = async (req, res) => {
+	try {
+        res.clearCookie("jwt");
+
+		res.status(201).json({
+			message: "Logged out successfully",
+			data: null
+		});
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).json({
+			message: error.message,
+			data: null
+		});
+	}
+};
+
 exports.getAllUsers = async (req, res) => {
 	try {
 		const users = await User.find();

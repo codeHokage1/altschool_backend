@@ -10,6 +10,7 @@ router
     })
     .post("/signup", checkNewUser, authControllers.signup)
     .post("/signin", checkLogin, authControllers.signin)
+    .post("/signout", isLoggedIn, authControllers.signout)
     .get('/users', isLoggedIn, authControllers.getAllUsers)
 
 module.exports = router;
