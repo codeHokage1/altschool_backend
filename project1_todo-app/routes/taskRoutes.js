@@ -1,12 +1,12 @@
 const router = require("express").Router();
+const taskController = require("../controllers/taskControllers");
+const { isLoggedIn } = require("../middlewares/checkToken");
+const {checkNewTask} = require("../middlewares/validateRequest");
 
 router
-	.get("/", (req, res) => {
-		res.send("GET All tasks");
-	})
-	.post("/", (req, res) => {
-		res.send("POST Create task");
-	})
+	.use(isLoggedIn)
+	.get("/", taskController.getAllTasks)
+	.post("/", checkNewTask, taskController.createTask)
 	.get("/:id", (req, res) => {
 		res.send("GET One task");
 	})

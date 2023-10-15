@@ -10,7 +10,7 @@ exports.signup = async (req, res) => {
 		});
 
 		const token = await jwt.sign(
-			{ username: newUser.username, email: newUser.email },
+			{ id: newUser._id, username: newUser.username, email: newUser.email },
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" }
 		);
@@ -50,7 +50,7 @@ exports.signin = async (req, res) => {
 		}
 
 		const token = await jwt.sign(
-			{ username: foundUser.username, email: foundUser.email },
+			{ id: foundUser._id, username: foundUser.username, email: foundUser.email },
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" }
 		);
@@ -73,7 +73,7 @@ exports.signin = async (req, res) => {
 
 exports.signout = async (req, res) => {
 	try {
-        res.clearCookie("jwt");
+		res.clearCookie("jwt");
 
 		res.status(201).json({
 			message: "Logged out successfully",
