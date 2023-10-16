@@ -77,7 +77,7 @@ exports.signin = async (req, res) => {
 			token
 		});
 		res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
-
+		req.flash("success", "Logged in successfully");
 		res.redirect("/tasks");
 	} catch (error) {
 		console.log(error.message);
@@ -91,7 +91,7 @@ exports.signin = async (req, res) => {
 exports.signout = async (req, res) => {
 	try {
 		res.clearCookie("jwt");
-
+		req.flash("success", "Logged out successfully");
 		console.log({
 			message: "Logged out successfully",
 			data: null

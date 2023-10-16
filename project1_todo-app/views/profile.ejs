@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>To-DO Now: Profile</title>
+	</head>
+	<body>
+		<header>
+			<h1>Welcome, <%= user.username %> !</h1>
+		</header>
+		<main>
+			<h1>Your Tasks</h1>
+			<h2>Sign Up</h2>
+			<form action="/tasks" method="post">
+				<label for="title">Title:</label><br />
+				<input type="text" id="title" name="title" value="" required /><br />
+				<input type="submit" value="Add Task" />
+			</form>
+			<% if (tasks.length > 0) { %>
+			<ul>
+				<% tasks.forEach(task => { %>
+				<li><%= task.title %></li>
+				<% }) %>
+			</ul>
+			<% } else { %>
+			<p>You have no tasks yet. Go ahead and add some!</p>
+			<% } %>
+		</main>
+	</body>
+</html>
