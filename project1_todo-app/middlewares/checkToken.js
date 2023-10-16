@@ -6,10 +6,11 @@ exports.isLoggedIn = async (req, res, next) => {
         // const token = req.headers.token;
 
         if (!token) {
-            return res.status(401).json({
-                message: "Kindly Login!",
-                data: null
-            });
+            // return res.status(401).json({
+            //     message: "Kindly Login!",
+            //     data: null
+            // });
+            return res.redirect("/auth/signin");
         }
 
         const decoded = await jwt.verify(token, process.env.JWT_SECRET);

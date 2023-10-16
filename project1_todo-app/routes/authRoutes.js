@@ -6,11 +6,14 @@ const {isLoggedIn} = require("../middlewares/checkToken");
 
 router
     .get("/signup", (req, res) => {
-        res.send("GET Sign up")
+        res.render("register");
     })
     .post("/signup", checkNewUser, authControllers.signup)
+    .get("/signin", (req, res) => {
+        res.render("signin");
+    })
     .post("/signin", checkLogin, authControllers.signin)
-    .post("/signout", isLoggedIn, authControllers.signout)
+    .get("/signout", isLoggedIn, authControllers.signout)
     .get('/users', isLoggedIn, authControllers.getAllUsers)
 
 module.exports = router;

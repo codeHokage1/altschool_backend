@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>To-Do Now: Register</title>
+		<title>To-Do Now: Login</title>
 		<!-- <link rel="stylesheet" href="/css/home.css" /> -->
 	</head>
 	<body>
@@ -14,10 +14,8 @@
 			<!-- <h1>To-Do Now</h1>
 			<p>Gotta do what you gotta do; now!</p> -->
 
-			<h2>Sign Up</h2>
-			<form action="/auth/signup" method="post">
-				<label for="username">Username:</label><br />
-				<input type="text" id="username" name="username" value="" required /><br />
+			<h2>Sign In</h2>
+			<form action="/auth/signin" method="post">
 				<label for="email">Email <Address></Address>:</label><br />
 				<input type="email" id="email" name="email" value="" required /><br /><br />
 				<label for="password">Password:</label><br />
@@ -25,7 +23,7 @@
 				<input type="submit" value="Submit" />
 			</form>
 
-            <p>Already have an account? <a href="/auth/signin">Login</a></p>
+            <p>Don't have an account? <a href="/auth/signup">Register</a></p>
 		</main>
 	</body>
 </html>
