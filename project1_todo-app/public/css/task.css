@@ -1,0 +1,12 @@
+/* *{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+} */
+.action-btn{
+    cursor: pointer;
+    border: 1px dotted black;
+}
+.action-btn:hover{
+    box-shadow: 3px 3px 0 3px grey;
+}

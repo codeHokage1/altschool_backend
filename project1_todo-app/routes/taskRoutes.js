@@ -6,13 +6,11 @@ const {checkNewTask} = require("../middlewares/validateRequest");
 router
 	.use(isLoggedIn)
 	.get("/", taskController.getAllTasks)
+	.get("/queries", (req, res) => {
+		res.send(req.query)
+	})
 	.post("/", checkNewTask, taskController.createTask)
-	.get("/:id", (req, res) => {
-		res.send("GET One task");
-	})
-	.put("/:id", (req, res) => {
-		res.send("PUT Update one task");
-	})
+	.put("/:id", taskController.updateTask)
 	.delete("/:id", (req, res) => {
 		res.send("DLETE Delete One task");
 	});

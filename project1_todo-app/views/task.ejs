@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>To-DO Now: Profile</title>
+	<link rel="stylesheet" href="/css/task.css" />
+</head>
+
+<body>
+	<header>
+		<h1>Welcome, <%= user.username %> !</h1>
+	</header>
+	<main>
+		<h1>Your Tasks</h1>
+		<h2>Create New Task</h2>
+		<form action="/tasks" method="post">
+			<label for="title">Title:</label><br />
+			<input type="text" id="title" name="title" value="" required /><br />
+			<input type="submit" value="Add Task" />
+		</form>
+
+		<div>
+			<p>Sort By:</p>
+			<a href="/tasks?state=pending">Pending</a>
+			<a href="/tasks?state=completed">Completed</a>
+		</div>
+
+		<% if (tasks.length> 0) { %>
+			<ul>
+				<% tasks.forEach(task=> { %>
+					<li>
+						<div>
+							<p>
+								<%= task.title %>
+							</p>
+							<p>
+								<%= new Date(task.updatedAt).toDateString() %>
+							</p>
+						</div>
+						<p>
+							<%= task.state %>
+						</p>
+						<div>
+							<img class="action-btn complete-btn" id=<%=task._id %>
+							src="/images/done.png"
+							alt="Complete Button"
+							/>
+							<img class="action-btn delete-btn" id=<%=task._id %>
+							src="/images/delete.png"
+							alt="Delete Button"
+							/>
+						</div>
+					</li>
+				<% }) %>
+			</ul>
+			<% } else { %>
+				<p>You have no tasks yet. Go ahead and add some!</p>
+				<% } %>
+	</main>
+
+	<script>
+		const completeBtns = document.querySelectorAll(".complete-btn");
+		const deleteBtns = document.querySelectorAll(".delete-btn");
+
+		completeBtns.forEach(completeBtn => {
+			completeBtn.addEventListener("click", (e) => {
+				const taskId = e.target.id;
+
+				fetch(`/tasks/${taskId}`, {
+					method: "PUT",
+					body: JSON.stringify({state: "completed"}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+				.then((response) => {
+					if (response.ok) {
+						console.log("POST request successful");
+						window.location.href = "/tasks";					
+					} else {
+						console.error("POST request failed");
+					}
+				})
+				.catch((error) => {
+					console.error("Error:", error);
+				});
+			});
+		})
+		
+		deleteBtns.forEach(deleteBtn => {
+			deleteBtn.addEventListener("click", (e) => {
+				const taskId = e.target.id;
+
+				fetch(`/tasks/${taskId}`, {
+					method: "PUT",
+					body: JSON.stringify({state: "deleted"}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+				.then((response) => {
+					if (response.ok) {
+						console.log("POST request successful");
+						window.location.href = "/tasks";					
+					} else {
+						console.error("POST request failed");
+					}
+				})
+				.catch((error) => {
+					console.error("Error:", error);
+				});
+			});
+		})
+		
+	</script>
+</body>
+
+</html>
