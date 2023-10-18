@@ -4,26 +4,29 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>To-Do Now: Login</title>
-		<!-- <link rel="stylesheet" href="/css/home.css" /> -->
+		<link rel="stylesheet" href="/css/register.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 	</head>
 	<body>
-		<!-- <header>
-			<img src="/images/farhan.jpeg" alt="Pic of Farhan" class="logo" />
-		</header> -->
+		<%- include('partials/header.ejs') %>
 		<main>
-			<!-- <h1>To-Do Now</h1>
-			<p>Gotta do what you gotta do; now!</p> -->
-
 			<h2>Sign In</h2>
 			<form action="/auth/signin" method="post">
-				<label for="email">Email <Address></Address>:</label><br />
-				<input type="email" id="email" name="email" value="" required /><br /><br />
-				<label for="password">Password:</label><br />
-				<input type="password" id="password" name="password" value="" required /><br /><br />
-				<input type="submit" value="Submit" />
+				<div class="form-line">
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" value="" required />
+				</div>
+				<div class="form-line">
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" value="" required />
+				</div>
+				<input class="submit" type="submit" value="Submit" />
 			</form>
 
-            <p>Don't have an account? <a href="/auth/signup">Register</a></p>
+            <p class="not-here">Don't have an account? <a href="/auth/signup">Register</a></p>
 		</main>
 	</body>
 </html>

@@ -1,0 +1,93 @@
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+:root {
+	--my-brown: #654a4e;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+    gap: 2em;
+    font-family: 'Quicksand', sans-serif;
+}
+header{
+	display: flex;
+	align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+.header-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+h1 {
+	font-family: "Space Mono", monospace;
+	font-weight: 700;
+	font-size: 2rem;
+	color: var(--my-brown);
+	letter-spacing: 1pt;
+}
+.logo {
+	width: 50px;
+}
+.motto{
+	font-family: monospace;
+	font-size: .8rem;
+    font-weight: bold;
+}
+.header-info p{
+    margin: 0;
+}
+h2{
+    font-family: "Space Mono", monospace;
+    font-size: 2rem;
+    margin-bottom: .5em;
+}
+
+main{
+    width: 50%;
+    margin: 0 auto;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    margin-bottom: 1em;
+}
+.form-line{
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    width: 100%;
+}
+.form-line input{
+    border: none;
+    margin: none;
+    padding: .5em;
+    border-bottom: 3px solid var(--my-brown);
+    font-family: "Space Mono", monospace;
+    font-size: 1rem;
+}
+.submit{
+    border: none;
+    outline: none;
+    padding: .5em;
+    background-color: var(--my-brown);
+    font-size: 1.5rem;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+}
+.submit:hover{
+    box-shadow: 7px 7px 0 0 grey;
+}   
+label, .not-here{
+    font-size: 1.2rem;
+}
