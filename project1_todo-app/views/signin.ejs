@@ -26,7 +26,15 @@
 				<input class="submit" type="submit" value="Submit" />
 			</form>
 
+			<% if (error) { %>
+				<p class="error">
+					<%= error %>
+				</p>
+			<% } %>
+
             <p class="not-here">Don't have an account? <a href="/auth/signup">Register</a></p>
 		</main>
+
+		<%- include('partials/footer.ejs') %>
 	</body>
 </html>

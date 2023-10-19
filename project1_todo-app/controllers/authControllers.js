@@ -17,12 +17,6 @@ exports.signup = async (req, res) => {
 
 		res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 
-		// res.status(201).json({
-		// 	message: "User created successfully",
-		// 	data: newUser,
-		// 	token
-		// });
-
 		console.log({
 			message: "User created successfully",
 			data: newUser,
@@ -43,18 +37,13 @@ exports.signin = async (req, res) => {
 	try {
 		const foundUser = await User.findOne({ email: req.body.email });
 		if (!foundUser) {
-			return res.status(404).json({
-				message: "User not found",
-				data: null
-			});
+			return res.render("signin", { error: "User not found!" });
 		}
 
 		const isMatch = await bcrypt.compare(req.body.password, foundUser.password);
 		if (!isMatch) {
-			return res.status(400).json({
-				message: "Incorrect password",
-				data: null
-			});
+			return res.render("signin", { error: "Incorrect Password!" });
+
 		}
 
 		const token = await jwt.sign(
@@ -62,14 +51,6 @@ exports.signin = async (req, res) => {
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" }
 		);
-
-
-		// res.status(201).json({
-		// 	message: "Logged in successfully",
-		// 	user: foundUser,
-		// 	token
-		// });
-
 		
 		console.log({
 			message: "User created successfully",
@@ -80,10 +61,11 @@ exports.signin = async (req, res) => {
 		res.redirect("/tasks");
 	} catch (error) {
 		console.log(error.message);
-		res.status(500).json({
-			message: error.message,
-			data: null
-		});
+		// console({
+		// 	message: error.message,
+		// 	data: null
+		// });
+		res.render("signin", { error: error.message });
 	}
 };
 

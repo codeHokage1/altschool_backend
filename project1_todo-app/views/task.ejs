@@ -9,40 +9,48 @@
 </head>
 
 <body>
-	<header>
-		<h1>Welcome, <%= user.username %> !</h1>
+	<header class="outer-header">
+		<div><%- include('./partials/header.ejs') %></div>
+		<p class="logout"><a href="/auth/signout">Logout</a></p>
 	</header>
 	<main>
-		<h1>Your Tasks</h1>
-		<h2>Create New Task</h2>
+		<h2>Hey,<%= user.username %>!</h2>
+		<% if (tasks.length> 0) { %>
+			<p>You still have <%= tasks.length %> tasks. Let's go! 🚀</p>
+		<% } else { %>
+			<p>You have no tasks yet. Go ahead and add some!</p>
+		<% } %>
+
 		<form action="/tasks" method="post">
-			<label for="title">Title:</label><br />
-			<input type="text" id="title" name="title" value="" required /><br />
-			<input type="submit" value="Add Task" />
+			<!-- <label for="title">Title:</label> -->
+			<input type="text" id="title" name="title" value="" placeholder="E.g Play Basketball" required />
+			<input class="submit" type="submit" value="Add Task" />
 		</form>
 
-		<div>
-			<p>Sort By:</p>
-			<a href="/tasks?state=pending">Pending</a>
-			<a href="/tasks?state=completed">Completed</a>
-		</div>
+		<% if (tasks.length> 0) { %>
+			<div class="sort">
+				<p>Sort By:</p>
+				<a href="/tasks?state=pending">Pending</a>
+				<a href="/tasks?state=completed">Completed</a>
+			</div>
+		<% } %>
 
 		<% if (tasks.length> 0) { %>
-			<ul>
+			<ul class="all-tasks">
 				<% tasks.forEach(task=> { %>
 					<li>
 						<div>
-							<p>
+							<p class="task-title">
 								<%= task.title %>
 							</p>
-							<p>
+							<p class="task-date">
 								<%= new Date(task.updatedAt).toDateString() %>
 							</p>
 						</div>
-						<p>
+						<p class="task-state">
 							<%= task.state %>
 						</p>
-						<div>
+						<div class="action-btns">
 							<img class="action-btn complete-btn" id=<%=task._id %>
 							src="/images/done.png"
 							alt="Complete Button"
@@ -55,10 +63,10 @@
 					</li>
 				<% }) %>
 			</ul>
-			<% } else { %>
-				<p>You have no tasks yet. Go ahead and add some!</p>
-				<% } %>
+			<% } %>
 	</main>
+
+	<%- include('./partials/footer.ejs') %>
 
 	<script>
 		const completeBtns = document.querySelectorAll(".complete-btn");
