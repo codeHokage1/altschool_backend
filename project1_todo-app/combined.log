@@ -1,2 +1,8 @@
 {"level":"info","message":"[Login User] => Login request received"}
 {"level":"info","message":"[Login User] => Login Complete. User logged in successfully"}
+{"level":"info","message":"[Logout User] => Logout request received"}
+{"level":"info","message":"[Logout User] => Logout Complete. User logged out successfully"}
+{"level":"info","message":"[Login User] => Login request received"}
+{"level":"info","message":"[Login User] => Login Complete. User logged in successfully"}
+{"level":"info","message":"[Get All Tasks] => Get all tasks request received"}
+{"level":"info","message":"[Get All Tasks] => Get all tasks request complete"}
