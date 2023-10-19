@@ -14,6 +14,5 @@ router
     })
     .post("/signin", checkLogin, authControllers.signin)
     .get("/signout", isLoggedIn, authControllers.signout)
-    .get('/users', isLoggedIn, authControllers.getAllUsers)
 
 module.exports = router;

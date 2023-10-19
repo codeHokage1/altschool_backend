@@ -10,12 +10,12 @@ exports.isLoggedIn = async (req, res, next) => {
 			//     message: "Kindly Login!",
 			//     data: null
 			// });
-			return res.redirect("/auth/signin");
+			return res.redirect("/auth/signin", {error: null});
 		}
 
 		const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 		req.user = decoded;
-		console.log(req.user);
+		// console.log(req.user);
 
 		next();
 	} catch (error) {
@@ -42,7 +42,7 @@ exports.detailsForHome = async (req, res, next) => {
 		}
 
 		const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-		req.user = decoded;
+		// req.user = decoded;
 
 		next();
 	} catch (error) {

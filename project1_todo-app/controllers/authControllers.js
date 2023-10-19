@@ -2,8 +2,11 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const logger = require("../utils/logger");
+
 exports.signup = async (req, res) => {
 	try {
+		logger.info("[Create User] => Signup request received");
 		const newUser = await User.create({
 			...req.body,
 			password: await bcrypt.hash(req.body.password, 10)
@@ -17,24 +20,26 @@ exports.signup = async (req, res) => {
 
 		res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 
-		console.log({
-			message: "User created successfully",
-			data: newUser,
-			token
-		});
+		// console.log({
+		// 	message: "User created successfully",
+		// 	data: newUser,
+		// 	token
+		// });
+		logger.info("[Create User] => Signup request complete. User created successfully");
+
 
 		res.redirect("/tasks");
 	} catch (error) {
-		console.log(error.message);
-		res.status(500).json({
-			message: error.message,
-			data: null
-		});
+		// console.log(error.message);
+		logger.info(`[Create User] => Error: ${error.message}`);
+		res.render("register", { error: error.message });
 	}
 };
 
 exports.signin = async (req, res) => {
 	try {
+		logger.info("[Login User] => Login request received");
+
 		const foundUser = await User.findOne({ email: req.body.email });
 		if (!foundUser) {
 			return res.render("signin", { error: "User not found!" });
@@ -52,52 +57,40 @@ exports.signin = async (req, res) => {
 			{ expiresIn: "1h" }
 		);
 		
-		console.log({
-			message: "User created successfully",
-			data: foundUser,
-			token
-		});
+		// console.log({
+		// 	message: "User created successfully",
+		// 	data: foundUser,
+		// 	token
+		// });
+
+		logger.info("[Login User] => Login Complete. User logged in successfully");
+
 		res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 		res.redirect("/tasks");
 	} catch (error) {
-		console.log(error.message);
-		// console({
-		// 	message: error.message,
-		// 	data: null
-		// });
+		// console.log(error.message);
+		logger.info(`[Login User] => Error: ${error.message}`);
+
 		res.render("signin", { error: error.message });
 	}
 };
 
 exports.signout = async (req, res) => {
 	try {
+		logger.info("[Logout User] => Logout request received");
+
 		res.clearCookie("jwt");
 		console.log({
 			message: "Logged out successfully",
 			data: null
 		});
+		logger.info("[Logout User] => Logout Complete. User logged out successfully");
 		res.redirect("/")
 	} catch (error) {
-		console.log(error.message);
-		res.status(500).json({
-			message: error.message,
-			data: null
-		});
+		// console.log(error.message);
+		logger.info(`[Login User] => Error: ${error.message}`);
+
+		res.render("signin", { error: error.message });
 	}
 };
 
-exports.getAllUsers = async (req, res) => {
-	try {
-		const users = await User.find();
-		res.status(200).json({
-			message: "All users",
-			data: users
-		});
-	} catch (error) {
-		console.log(error.message);
-		res.status(500).json({
-			message: error.message,
-			data: null
-		});
-	}
-};
