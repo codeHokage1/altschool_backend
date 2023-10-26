@@ -62,3 +62,7 @@
 {"level":"info","message":"[Get All Tasks] => Get all tasks request complete"}
 {"level":"info","message":"[Get All Articles] => Get all Articles request received"}
 {"level":"info","message":"[Get All Tasks] => Get all tasks request complete"}
+{"level":"info","message":"[Get All Articles] => Get all Articles request received"}
+{"level":"info","message":"[Get All Tasks] => Get all tasks request complete"}
+{"level":"info","message":"[Login User] => Login request received"}
+{"level":"info","message":"[Login User] => Login Complete. User logged in successfully"}

@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 
 exports.isLoggedIn = async (req, res, next) => {
 	try {
-		// const token = req.cookies.jwt;
-		const token = req.headers.token;
+		const token = req.cookies.jwt;
+		// const token = req.headers.token;
 
 		if (!token) {
 			return res.status(401).json({

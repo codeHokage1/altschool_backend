@@ -23,7 +23,7 @@ exports.signup = async (req, res) => {
 			{ expiresIn: "1h" }
 		);
 
-		// res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
+		res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 
 		logger.info("[Create User] => Signup request complete. User created successfully");
 		return res.status(201).json({
@@ -34,7 +34,7 @@ exports.signup = async (req, res) => {
 
 		// res.redirect("/tasks");
 	} catch (error) {
-		// console.log(error.message);
+		console.log(error.message);
 		logger.info(`[Create User] => Error: ${error.message}`);
 		// res.render("register", { error: error.message });
 		res.status(500).json({
@@ -80,7 +80,7 @@ exports.signin = async (req, res) => {
 
 		logger.info("[Login User] => Login Complete. User logged in successfully");
 
-		// res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
+		res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 		// res.redirect("/tasks");
 
 		return res.status(200).json({
@@ -89,7 +89,7 @@ exports.signin = async (req, res) => {
 			token
 		});
 	} catch (error) {
-		// console.log(error.message);
+		console.log(error.message);
 		logger.info(`[Login User] => Error: ${error.message}`);
 
 		// res.render("signin", { error: error.message });
@@ -106,12 +106,14 @@ exports.signout = async (req, res) => {
 		logger.info("[Logout User] => Logout request received");
 
 		res.clearCookie("jwt");
-		console.log({
+
+		logger.info("[Logout User] => Logout Complete. User logged out successfully");
+		
+		return res.json({
 			message: "Logged out successfully",
 			data: null
 		});
-		logger.info("[Logout User] => Logout Complete. User logged out successfully");
-		res.redirect("/");
+		// res.redirect("/");
 	} catch (error) {
 		// console.log(error.message);
 		logger.info(`[Login User] => Error: ${error.message}`);
