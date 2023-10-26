@@ -1,0 +1,16 @@
+footer{
+    bottom: 0;
+}
+footer p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .3em;
+    color: darkgray;
+    font-family: monospace;
+    font-size: .7rem;
+}
+footer a {
+    color: darkgray;
+    font-family: monospace;
+}

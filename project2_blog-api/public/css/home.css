@@ -1,0 +1,68 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+:root {
+	--my-brown: #654a4e;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	gap: 3em;
+	font-family: 'Quicksand', sans-serif;
+}
+header {
+	text-align: center;
+}
+h1 {
+	font-family: "Space Mono", monospace;
+	font-weight: 700;
+	font-size: 3.2rem;
+	margin: .2em 0 .1em;
+	color: var(--my-brown);
+	letter-spacing: 1pt;
+}
+.logo {
+	width: 50px;
+}
+.motto{
+	font-family: monospace;
+	font-size: 1rem;
+}
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.intro{
+	max-width: 60%;
+	text-align: center;
+	line-height: 1.5;
+	font-size: 1.3rem;
+	margin-bottom: 1em;
+}
+.greet{
+	font-family: "Space Mono", monospace;
+	font-size: 1.5rem;
+	margin-bottom: 1em;
+}
+.links{
+	display: flex;
+	gap: 2em;
+}
+.links a{
+	border-bottom: 2px solid var(--my-brown);
+	text-decoration: none;
+	font-family: "Space mono", monospace;
+	font-size: 1.5rem;
+	color: black;
+}
+.links a:hover{
+	color: #6ba008;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>To-Do Now: An amazing todo appp</title>
+		<link rel="stylesheet" href="/css/home.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+	</head>
+
+	<body>
+		<header>
+			<img src="/images/dojo.png" alt="Dojo representation" class="logo" />
+			<h1>Task Dojo</h1>
+			<p class="motto">Gotta do what you gotta do</p>
+		</header>
+		<main>
+			<p class="intro">
+				Tasks may be hectic but organizing and remembering them shouldn't be. Use Task Dojo to
+				structure your immenent and long-term chores, plans and goals. Hop in, we are rooting for
+				you!
+			</p>
+			<% if (!user) { %>
+			<div class="links">
+				<p><a href="/auth/signin">Login</a></p>
+				<p><a href="/auth/signup">Register</a></p>
+			</div>
+			<% } else { %>
+			<h3 class="greet">Hey <span class="username"><%= user.username %></span>. Let's go see your tasks!</h3>
+			<div class="links">
+				<p><a href="/tasks">Tasks</a></p>
+				<p><a href="/auth/signout">Logout</a></p>
+			</div>
+			<% } %>
+		</main>
+
+		<%- include('./partials/footer.ejs') %>
+	</body>
+</html>

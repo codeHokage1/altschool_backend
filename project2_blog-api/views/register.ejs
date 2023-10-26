@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>To-Do Now: Register</title>
+		<link rel="stylesheet" href="/css/register.css">
+	</head>
+	<body>
+		<%- include('./partials/header.ejs') %>
+		
+		<main>
+			<h2>Sign Up</h2>
+			<form action="/auth/signup" method="post">
+				<div class="form-line">
+					<label for="username">Username:</label>
+					<input type="text" id="username" name="username" value="" required />
+				</div>
+				<div class="form-line">
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" value="" required />
+				</div>
+				<div class="form-line">
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" value="" required />
+				</div>
+				<input class="submit" type="submit" value="Submit" />
+			</form>
+
+			<% if (error) { %>
+				<p class="error">
+					<%= error %>
+				</p>
+			<% } %>
+
+            <p class="not-here">Already have an account? <a href="/auth/signin">Login</a></p>
+		</main>
+
+		<%- include('./partials/footer.ejs') %>
+	</body>
+</html>
