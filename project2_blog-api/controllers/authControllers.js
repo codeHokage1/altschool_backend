@@ -13,21 +13,24 @@ exports.signup = async (req, res) => {
 		});
 
 		const token = await jwt.sign(
-			{ id: newUser._id, firstName: newUser.first_name, email: newUser.email },
+			{
+				id: newUser._id,
+				first_name: newUser.first_name,
+				last_name: newUser.last_name,
+				email: newUser.email
+			},
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" }
 		);
 
 		// res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
-		
+
 		logger.info("[Create User] => Signup request complete. User created successfully");
 		return res.status(201).json({
 			message: "User created successfully",
 			data: newUser,
 			token
 		});
-		
-
 
 		// res.redirect("/tasks");
 	} catch (error) {
@@ -37,7 +40,7 @@ exports.signup = async (req, res) => {
 		res.status(500).json({
 			message: error.message,
 			data: null
-		})
+		});
 	}
 };
 
@@ -51,7 +54,7 @@ exports.signin = async (req, res) => {
 			return res.status(404).json({
 				message: "User not found!",
 				data: null
-			})
+			});
 		}
 
 		const isMatch = await bcrypt.compare(req.body.password, foundUser.password);
@@ -60,21 +63,20 @@ exports.signin = async (req, res) => {
 			return res.status(401).json({
 				message: "Incorrect Password!",
 				data: null
-			})
-
+			});
 		}
 
 		const token = await jwt.sign(
-			{ id: foundUser._id, firstName: foundUser.first_name, email: foundUser.email },
+			{
+				id: foundUser._id,
+				first_name: foundUser.first_name,
+				last_name: foundUser.last_name,
+				email: foundUser.email
+			},
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" }
 		);
-		
-		// console.log({
-		// 	message: "User created successfully",
-		// 	data: foundUser,
-		// 	token
-		// });
+
 
 		logger.info("[Login User] => Login Complete. User logged in successfully");
 
@@ -83,8 +85,9 @@ exports.signin = async (req, res) => {
 
 		return res.status(200).json({
 			message: "User signed in successfully",
-			data: null
-		})
+			data: foundUser,
+			token
+		});
 	} catch (error) {
 		// console.log(error.message);
 		logger.info(`[Login User] => Error: ${error.message}`);
@@ -94,7 +97,7 @@ exports.signin = async (req, res) => {
 		return res.status(500).json({
 			message: error.message,
 			data: null
-		})
+		});
 	}
 };
 
@@ -108,7 +111,7 @@ exports.signout = async (req, res) => {
 			data: null
 		});
 		logger.info("[Logout User] => Logout Complete. User logged out successfully");
-		res.redirect("/")
+		res.redirect("/");
 	} catch (error) {
 		// console.log(error.message);
 		logger.info(`[Login User] => Error: ${error.message}`);
@@ -116,4 +119,3 @@ exports.signout = async (req, res) => {
 		res.render("signin", { error: error.message });
 	}
 };
-

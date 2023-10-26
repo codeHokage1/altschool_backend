@@ -1,5 +1,6 @@
 const Article = require("../models/Article");
 const logger = require("../utils/logger");
+const searchQuery = require("../utils/queryFunctions")
 
 exports.getAllArticles = async (req, res) => {
 	try {
@@ -8,13 +9,22 @@ exports.getAllArticles = async (req, res) => {
 
 		const page = parseInt(req.query.page) || 1;
 		const limit = parseInt(req.query.limit) || 20;
-		// const sortBy = req.query.sortBy || "createdAt"; // Default sorting field
+		const authorSearch = userQuery.author;
+		const titleSearch = userQuery.title;
+		const tagSearch = userQuery.tags;
 		// const order = req.query.order || "asc"; // Default sorting order
 
-		const skip = (page - 1) * limit;
+		// const searchQuery = {
+		// 	$or: [
+		// 	  { title: { $regex: titleSearch, $options: 'i' } },
+		// 	  { author: { $regex: authorSearch, $options: 'i' } },
+		// 	  { tags: { $regex: searchString, $options: 'i' } }
+		// 	]
+		//   };
 
-		const allArticles = await Article.find()
-			// .sort({ [sortBy]: order })
+		const skip = (page - 1) * limit;
+		console.log(searchQuery(authorSearch, titleSearch, tagSearch))
+		const allArticles = await Article.find(searchQuery(authorSearch, titleSearch, tagSearch))
 			.skip(skip)
 			.limit(limit);
 
@@ -33,7 +43,6 @@ exports.getAllArticles = async (req, res) => {
 				articlesCount
 			}
 		});
-
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).json({
