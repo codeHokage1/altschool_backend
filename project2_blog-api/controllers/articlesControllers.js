@@ -1,6 +1,7 @@
 const Article = require("../models/Article");
 const logger = require("../utils/logger");
 const { allArticlesQuery, myArticlesQuery } = require("../utils/queryFunctions");
+const { calculateReadingTime } = require("../utils/helperFunctions");
 
 exports.getAllArticles = async (req, res) => {
 	try {
@@ -127,7 +128,7 @@ exports.createArticle = async (req, res) => {
 			...req.body,
 			author: `${user.first_name} ${user.last_name}`,
 			author_id: `${req.user.id}`,
-			reading_time: 10
+			reading_time: calculateReadingTime(req.body.body, 200)
 		});
 
 		// res.render("task", { user: req.user, tasks: await Task.find({ user_id: req.user.id }) });

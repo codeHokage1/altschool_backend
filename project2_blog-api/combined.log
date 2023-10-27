@@ -115,3 +115,13 @@
 {"level":"info","message":"[Logout User] => Logout request received"}
 {"level":"info","message":"[Logout User] => Logout Complete. User logged out successfully"}
 {"level":"info","message":"[Get All Articles] => Get all Articles request received"}
+{"level":"info","message":"[Get All articles] => Request complete: all articles gotten"}
+{"level":"info","message":"[Login User] => Login request received"}
+{"level":"info","message":"[Login User] => Login request received"}
+{"level":"info","message":"[Login User] => Login Complete. User logged in successfully"}
+{"level":"info","message":"[Get All My Articles] => Get all Articles for Logged-in User request received"}
+{"level":"info","message":"[Get All My Articles] => Request complete: all tasks for Logged-in user gotten"}
+{"level":"info","message":"[Update One Article by ID] => Update One Article request received"}
+{"level":"info","message":"[Update One Article by ID] => Request Complete: Updated article"}
+{"level":"info","message":"[Get All Articles] => Get all Articles request received"}
+{"level":"info","message":"[Get All articles] => Request complete: all articles gotten"}
