@@ -16,9 +16,10 @@ exports.isLoggedIn = async (req, res, next) => {
 		const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 		req.user = decoded;
 		// console.log(req.user);
-
+		// console.log("done here")
 		next();
 	} catch (error) {
+		// console.log("error here")
 		return res.status(500).json({
 			message: error.message,
 			data: null

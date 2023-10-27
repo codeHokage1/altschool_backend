@@ -1,6 +1,6 @@
 const Article = require("../models/Article");
 const logger = require("../utils/logger");
-const searchQuery = require("../utils/queryFunctions")
+const { allArticlesQuery, myArticlesQuery } = require("../utils/queryFunctions");
 
 exports.getAllArticles = async (req, res) => {
 	try {
@@ -12,23 +12,16 @@ exports.getAllArticles = async (req, res) => {
 		const authorSearch = userQuery.author;
 		const titleSearch = userQuery.title;
 		const tagSearch = userQuery.tags;
-		// const order = req.query.order || "asc"; // Default sorting order
-
-		// const searchQuery = {
-		// 	$or: [
-		// 	  { title: { $regex: titleSearch, $options: 'i' } },
-		// 	  { author: { $regex: authorSearch, $options: 'i' } },
-		// 	  { tags: { $regex: searchString, $options: 'i' } }
-		// 	]
-		//   };
 
 		const skip = (page - 1) * limit;
-		console.log(searchQuery(authorSearch, titleSearch, tagSearch))
-		const allArticles = await Article.find(searchQuery(authorSearch, titleSearch, tagSearch))
+
+		const allArticles = await Article.find(allArticlesQuery(authorSearch, titleSearch, tagSearch))
 			.skip(skip)
 			.limit(limit);
 
-		const articlesCount = await Article.countDocuments();
+		const articlesCount = await Article.countDocuments(
+			allArticlesQuery(authorSearch, titleSearch, tagSearch)
+		);
 
 		logger.info("[Get All Tasks] => Get all tasks request complete");
 
@@ -53,10 +46,49 @@ exports.getAllArticles = async (req, res) => {
 	}
 };
 
+exports.getMyArticles = async (req, res) => {
+	try {
+		logger.info("[Get All My Articles] => Get all Articles for Logged-in User request received");
+		const userQuery = req.query;
+		const user = req.user;
+		console.log(user, userQuery);
+
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 20;
+		const skip = (page - 1) * limit;
+
+		const allArticles = await Article.find(myArticlesQuery(user.id, userQuery.state))
+			.skip(skip)
+			.limit(limit);
+
+		const articlesCount = await Article.countDocuments(myArticlesQuery(user.id, userQuery.state));
+
+		logger.info("[Get All Tasks] => Get all tasks request complete");
+
+		// res.render("task", { user: req.user, tasks: tasks.reverse() });
+
+		return res.json({
+			message: `Articles for ${user.first_name} ${user.last_name}:`,
+			data: {
+				allArticles,
+				page,
+				limit,
+				articlesCount
+			}
+		});
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).json({
+			message: error.message,
+			data: null
+		});
+		logger.info(`[Get All Tasks] => Error: ${error.message}`);
+	}
+};
+
 exports.getOneArticle = async (req, res) => {
 	try {
 		const articleId = req.params.id;
-		console.log(articleId);
 		const foundArticle = await Article.findById(articleId);
 		if (!foundArticle) {
 			return res.status(404).json({
