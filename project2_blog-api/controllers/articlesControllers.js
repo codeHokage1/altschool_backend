@@ -23,7 +23,7 @@ exports.getAllArticles = async (req, res) => {
 			allArticlesQuery(authorSearch, titleSearch, tagSearch)
 		);
 
-		logger.info("[Get All Tasks] => Get all tasks request complete");
+		logger.info("[Get All articles] => Request complete: all articles gotten");
 
 		// res.render("task", { user: req.user, tasks: tasks.reverse() });
 
@@ -42,7 +42,7 @@ exports.getAllArticles = async (req, res) => {
 			message: error.message,
 			data: null
 		});
-		logger.info(`[Get All Tasks] => Error: ${error.message}`);
+		logger.info(`[Get All Articles] => Error: ${error.message}`);
 	}
 };
 
@@ -63,7 +63,7 @@ exports.getMyArticles = async (req, res) => {
 
 		const articlesCount = await Article.countDocuments(myArticlesQuery(user.id, userQuery.state));
 
-		logger.info("[Get All Tasks] => Get all tasks request complete");
+		logger.info("[Get All My Articles] => Request complete: all tasks for Logged-in user gotten");
 
 		// res.render("task", { user: req.user, tasks: tasks.reverse() });
 
@@ -78,16 +78,19 @@ exports.getMyArticles = async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error.message);
+		logger.info(`[Get All My Articles] => Error: ${error.message}`);
+
 		res.status(500).json({
 			message: error.message,
 			data: null
 		});
-		logger.info(`[Get All Tasks] => Error: ${error.message}`);
 	}
 };
 
 exports.getOneArticle = async (req, res) => {
 	try {
+		logger.info("[Get One Article by ID] => Get One Article request received");
+
 		const articleId = req.params.id;
 		const foundArticle = await Article.findById(articleId);
 		if (!foundArticle) {
@@ -99,12 +102,15 @@ exports.getOneArticle = async (req, res) => {
 		foundArticle.read_count += 1;
 		foundArticle.save();
 
+		logger.info("[Get One Article by ID] => Request Complete: One article gotten");
+
 		return res.status(200).json({
 			message: "Article fetched successfully",
 			data: foundArticle
 		});
 	} catch (error) {
 		console.log(error.message);
+		logger.info(`[Get One Article by ID] => Error: ${error.message}`);
 		res.status(500).json({
 			message: error.message,
 			data: null
@@ -114,6 +120,8 @@ exports.getOneArticle = async (req, res) => {
 
 exports.createArticle = async (req, res) => {
 	try {
+		logger.info("[Create Article] => Create Article request received");
+
 		const user = req.user;
 		const article = await Article.create({
 			...req.body,
@@ -124,12 +132,16 @@ exports.createArticle = async (req, res) => {
 
 		// res.render("task", { user: req.user, tasks: await Task.find({ user_id: req.user.id }) });
 
+		logger.info("[Create Article] => Request Complete: Article created");
+
 		return res.status(201).json({
 			message: "Article created successfully",
 			data: article
 		});
 	} catch (error) {
 		console.log(error.message);
+		logger.info(`[Create Article] => Error: ${error.message}`);
+
 		res.status(500).json({
 			message: error.message,
 			data: null
@@ -139,6 +151,8 @@ exports.createArticle = async (req, res) => {
 
 exports.updateArticle = async (req, res) => {
 	try {
+		logger.info("[Update One Article by ID] => Update One Article request received");
+
 		const articleId = req.params.id;
 		const foundArticle = await Article.findOne({ _id: articleId });
 		if (!foundArticle) {
@@ -150,12 +164,16 @@ exports.updateArticle = async (req, res) => {
 		const article = await Article.findOneAndUpdate({ _id: articleId }, req.body);
 		// res.render("task", { user: req.user, tasks: await Task.find({ user_id: req.user.id }) });
 
+		logger.info("[Update One Article by ID] => Request Complete: Updated article");
+
 		return res.status(201).json({
 			message: "Article Updated successfully",
 			data: article
 		});
 	} catch (error) {
 		console.log(error.message);
+		logger.info(`[Update One Article by ID] => Error: ${error.message}`);
+
 		res.status(500).json({
 			message: error.message,
 			data: null
@@ -165,6 +183,8 @@ exports.updateArticle = async (req, res) => {
 
 exports.deleteOneArticle = async (req, res) => {
 	try {
+		logger.info("[Delete Article] => Delete One Article request received");
+
 		const articleId = req.params.id;
 		const foundArticle = await Article.findOne({ _id: articleId });
 		if (!foundArticle) {
@@ -175,6 +195,7 @@ exports.deleteOneArticle = async (req, res) => {
 		}
 
 		const deletedArticle = await Article.findByIdAndDelete(articleId);
+		logger.info("[Delete Article] => Request Complete: One article deleted");
 
 		return res.status(200).json({
 			message: "Article deleted successfully",
@@ -182,6 +203,8 @@ exports.deleteOneArticle = async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error.message);
+		logger.info(`[Delete Article] => Error: ${error.message}`);
+
 		res.status(500).json({
 			message: error.message,
 			data: null

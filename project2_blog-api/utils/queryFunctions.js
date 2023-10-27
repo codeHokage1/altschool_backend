@@ -1,5 +1,7 @@
 exports.allArticlesQuery = (author, title, tags) => {
-	const query = {};
+	const query = {
+		state: "published"
+	};
 	if (author) {
 		query.author = author.replace(/"/g, "");
 	}
