@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const Article = require("../models/Article");
 
 exports.isLoggedIn = async (req, res, next) => {
 	try {
@@ -27,23 +28,37 @@ exports.isLoggedIn = async (req, res, next) => {
 	}
 };
 
-exports.detailsForHome = async (req, res, next) => {
+exports.isAuthor = async (req, res, next) => {
 	try {
 		const token = req.cookies.jwt;
 		// const token = req.headers.token;
 
 		if (!token) {
-			// return res.status(401).json({
-			//     message: "Kindly Login!",
-			//     data: null
-			// });
-			req.user = null;
-            next();
-            return;
+			return res.status(401).json({
+			    message: "Kindly Login!",
+			    data: null
+			});
 		}
 
 		const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 		// req.user = decoded;
+		const articleId = req.params.id;
+		const foundArticle = await Article.findOne({ _id: articleId });
+		if (!foundArticle) {
+			return res.status(404).json({
+				message: "Article not found!",
+				data: null
+			});
+		}
+
+		if (decoded.id != foundArticle.author_id) {
+			return res.status(401).json({
+				message: "You are not authorized to perform this action!",
+				data: null
+			});
+		}
+
+
 
 		next();
 	} catch (error) {

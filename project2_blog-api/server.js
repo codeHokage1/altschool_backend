@@ -6,7 +6,6 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const articlesRoutes = require("./routes/articlesRoutes");
 const connectDB = require("./config/dbConfig");
-const { detailsForHome } = require("./middlewares/checkToken");
 
 const app = express();
 
@@ -17,7 +16,7 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(cors());
 
-app.get("/", detailsForHome, (req, res) => {
+app.get("/", (req, res) => {
 	// res.render("home", { user: req.user });
 	res.json({
 		message: "Welcome to my blog API"
