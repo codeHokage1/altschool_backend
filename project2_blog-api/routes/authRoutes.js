@@ -16,11 +16,5 @@ router
     // })
     .post("/signin", checkLogin, authControllers.signin)
     .get("/signout", isLoggedIn, authControllers.signout)
-    .get("/users", async(req, res) => {
-        res.json({
-            message: "All users",
-            data: await User.find()
-        })
-    })
 
 module.exports = router;
