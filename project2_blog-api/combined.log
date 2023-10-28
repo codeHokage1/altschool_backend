@@ -125,3 +125,7 @@
 {"level":"info","message":"[Update One Article by ID] => Request Complete: Updated article"}
 {"level":"info","message":"[Get All Articles] => Get all Articles request received"}
 {"level":"info","message":"[Get All articles] => Request complete: all articles gotten"}
+{"level":"info","message":"[Get All My Articles] => Get all Articles for Logged-in User request received"}
+{"level":"info","message":"[Get All My Articles] => Request complete: all tasks for Logged-in user gotten"}
+{"level":"info","message":"[Create Article] => Create Article request received"}
+{"level":"info","message":"[Create Article] => Request Complete: Article created"}
