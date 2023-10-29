@@ -16,7 +16,10 @@ app.use(cors());
 
 app.get("/", (req, res) => {
 	// res.render("home", { user: req.user });
-	res.send("Welcome to my blog API!");
+	res.send(`
+	<h1>Welcome to The blog API!</h1>
+	<p>Kindly check the <a href="https://documenter.getpostman.com/view/23438041/2s9YRGy9Ck" target = "_blank">full documentation</a> to get started</p>
+	`);
 });
 
 app
