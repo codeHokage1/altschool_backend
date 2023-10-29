@@ -11,6 +11,7 @@
   "jest": {
     "testEnvironment": "node"
   },
+  "nodeversion": "v16.9.1",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -27,6 +28,7 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.2.0",
+    "mongodb-memory-server": "^9.0.1",
     "mongoose": "^7.6.2",
     "supertest": "^6.3.3",
     "winston": "^3.11.0"
