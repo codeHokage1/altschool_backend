@@ -83,7 +83,7 @@ exports.signin = async (req, res) => {
 		res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 		// res.redirect("/tasks");
 
-		return res.status(200).json({
+		return res.status(201).json({
 			message: "User signed in successfully",
 			data: foundUser,
 			token

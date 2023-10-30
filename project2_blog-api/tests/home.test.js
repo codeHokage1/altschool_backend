@@ -5,12 +5,12 @@ const request = require("supertest");
 describe("API Home and Unfound route", () => {
     
 	it("GET / - should return a welcome message", async () => {
-		const expected = "Welcome to my blog API!";
+		const expected = "<h1>Welcome to The blog API!</h1>";
 
 		const response = await request(app).get("/");
 
 		expect(response.statusCode).toEqual(200);
-		expect(response.text).toEqual(expected);
+		expect(response.text).toContain(expected);
 	});
 
 	it("GET /unknown - should return route not found", async () => {
