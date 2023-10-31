@@ -61,6 +61,25 @@ describe("Dealing with Articles", () => {
 		expect(response.body).toMatchObject(expected);
 	});
 
+    it("POST /articles - CREATE AN ARTICLE: should return erros IF NOT logged in", async () => {
+		const expected = {
+			message: "Kindly Login!",
+			data: null
+		};
+
+		const response = await request(app)
+			.post("/articles")
+			.send({
+                title: "Hello there",
+                description: "Hello there desc",
+                body: "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+            });
+
+		// console.log(response.body);
+		expect(response.statusCode).toEqual(401);
+		expect(response.body).toMatchObject(expected);
+	});
+
 	it("GET /articles - GET ALL ARTICLES: should return all PUBLISHED articles, logged-in or not", async () => {
 		const expected = {
 			message: "All Articles fetched successfully",
@@ -78,38 +97,32 @@ describe("Dealing with Articles", () => {
 		expect(response.body).toMatchObject(expected);
 	});
 
-	// it("GET /articles/:id - GET ONE ARTICLE: should return one PUBLISHED article by id, logged-in or not", async () => {
-	// 	const expected = {
-	// 		message: "Article fetched successfully",
-	// 		data: expect.any(Object)
-	// 	};
+	it("GET /articles/:id - GET ONE ARTICLE: should return one PUBLISHED article by id, logged-in or not", async () => {
+		const expected = {
+			message: "Article fetched successfully",
+			data: expect.any(Object)
+		};
 
-	// 	const response = await request(app).get("/articles/");
+        // Log in newUser
+        const loggedInUser = await request(app)
+			.post("/auth/signin")
+			.set("content-type", "application/json")
+			.send({ email: "ayo1@gmail.com", password: "abc123" });
 
-	// 	expect(response.statusCode).toEqual(200);
-	// 	expect(response.body).toMatchObject(expected);
-	// });
+        // Create an article
+        const newArticle = await request(app)
+			.post("/articles")
+            .set("Cookie", [`jwt=${loggedInUser.body.token}`])
+			.send({
+                title: "Hello there",
+                description: "Hello there desc",
+                body: "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+            });
+		const response = await request(app).get(`/articles/${newArticle.body.data._id}`);
 
-	// it("POST /auth/signin - LOGIN: should return sucessful with correct parameters", async () => {
-	// 	const expected = {
-	// 		message: "User signed in successfully",
-	// 		data: expect.any(Object),
-	// 		token: expect.any(String)
-	// 	};
+		expect(response.statusCode).toEqual(200);
+		expect(response.body).toMatchObject(expected);
+	});
 
-	// 	await User.create({
-	// 		first_name: "Ayo",
-	// 		last_name: "Sodiq",
-	// 		email: "ayo1@gmail.com",
-	// 		password: await bcrypt.hash("abc123", 10)
-	// 	});
-
-	// 	const response = await request(app)
-	// 		.post("/auth/signin")
-	// 		.set("content-type", "application/json")
-	// 		.send({ email: "ayo1@gmail.com", password: "abc123" });
-
-	// 	expect(response.statusCode).toEqual(201);
-	// 	expect(response.body).toMatchObject(expected);
-	// });
+	
 });
