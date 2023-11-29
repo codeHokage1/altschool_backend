@@ -60,13 +60,11 @@ exports.getMyArticles = async (req, res) => {
 
 		const allArticles = await Article.find(myArticlesQuery(user.id, userQuery.state))
 			.skip(skip)
-			.limit(limit);
+			.limit(limit)
 
 		const articlesCount = await Article.countDocuments(myArticlesQuery(user.id, userQuery.state));
 
 		logger.info("[Get All My Articles] => Request complete: all tasks for Logged-in user gotten");
-
-		// res.render("task", { user: req.user, tasks: tasks.reverse() });
 
 		return res.json({
 			message: `Articles for ${user.first_name} ${user.last_name}:`,
