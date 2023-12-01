@@ -1,14 +1,16 @@
-const serverUrl = `http://localhost:${process.env.PORT}`;
-const form = document.querySelector('#login-form');
+const serverUrl = `http://localhost:5001`;
+const form = document.querySelector("#login-form");
 
-form.addEventListener('submit', (event) => {
-   event.preventDefault();
-   const username = event.target.elements.username.value;
-   const userType = event.target.elements['user-type'].value;
+console.log(serverUrl);
 
-   if(userType === 'customer') {
-      fetch(`${serverUrl}/customer?username=${username}`)
-   } else if(userType === 'driver') {
-      fetch(`${serverUrl}/driver?username=${username}`)
-   }
-})
+form.addEventListener("submit", (event) => {
+	event.preventDefault();
+	const username = event.target.elements.username.value;
+	const userType = event.target.elements["user-type"].value;
+
+	if (userType === "customer") {
+		window.location.href = `${serverUrl}/customer?username=${username}`;
+	} else if (userType === "driver") {
+		window.location.href = `${serverUrl}/driver?username=${username}`;
+	}
+});
