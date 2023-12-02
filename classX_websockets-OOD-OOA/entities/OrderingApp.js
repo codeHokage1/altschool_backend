@@ -66,6 +66,40 @@ class OrderingApp {
 			this.sendEvent(socket, { from: "Admin", message: "Welcome to Car Order App" }, "joinSession");
 		}
 	}
+
+   requestOrder(order){
+      console.log("Requesting ride...");
+      const {customerId, destination, currentLocation, price} = order;
+      const foundCustomer = this.customers.find(customer => customer.id == customerId);
+      const newOrder = new Order(foundCustomer, destination, currentLocation, price);
+      this.orders.push(newOrder);
+
+      foundCustomer.requestRide(order);
+      for(let driver of this.drivers){
+         if(!driver.isDriving){
+            this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "orderRequested");
+         }
+      }
+
+      console.log("Order requested");
+      return order;
+   }
+
+   acceptOrder({order, driverId}){
+      const foundDriver = this.drivers.find(driver => driver.id == driverId);
+      const foundOrder = this.orders.find(order => order.id == order.id);
+      console.log("Accepting order...", {order, driverId})
+      // foundDriver.acceptRide(order);
+      foundOrder.assignDriver(foundDriver);
+      this.sendEvent(this.socketUserMap.get(foundOrder.customer.id), foundOrder, "orderAccepted");
+      this.sendEvent(this.socketUserMap.get(foundDriver.id), foundOrder, "orderAccepted");
+   }
+
+   rejectOrder({order, driverId}){
+      const foundDriver = this.drivers.find(driver => driver.id == driverId);
+      foundDriver.rejectRide(order);
+      this.sendEvent(this.socketUserMap.get(foundDriver.id), order, "orderRejected");
+   }
 }
 
 module.exports = OrderingApp;

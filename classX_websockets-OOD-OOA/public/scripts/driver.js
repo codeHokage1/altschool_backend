@@ -1,6 +1,7 @@
 const username = window.location.search.split("=")[1];
 console.log(username);
 const alertsBox = document.querySelector(".alerts");
+const ordersBox = document.querySelector(".orders");
 
 const socket = io({
    query: {
@@ -16,7 +17,7 @@ socket.on("connect", () => {
 
 socket.on("driverCreated", data => {
    console.log("Driver created");
-   localStorage.setItem("driverId", data.driverId);
+   localStorage.setItem("driverId", data.id);
 })
 
 socket.on("joinSession", data => {
@@ -24,4 +25,50 @@ socket.on("joinSession", data => {
    alert.classList.add("alert");
    alert.textContent = `${data.from}: ${data.message}`;
    alertsBox.appendChild(alert);
+});
+
+socket.on("orderRequested", order => {
+   const orderElement = document.createElement("div");
+   orderElement.classList.add("order");
+   orderElement.innerHTML = `
+      <p>A new ride order is in.</p>
+      <p>Order id: ${order.id}</p>
+      <p>Customer: ${order.customer.name}</p>
+      <p>From: ${order.currentLocation}</p>
+      <p>To: ${order.destination}</p>
+      <p>Price: ${order.price}</p>
+      <button class="accept" id="accept-order-${order.id}">Accept</button>
+      <button class="reject" id="reject-order-${order.id}">Reject</button>
+   `;
+   ordersBox.appendChild(orderElement);
+
+   const acceptButton = document.querySelector(`#accept-order-${order.id}`);
+   const rejectButton = document.querySelector(`#reject-order-${order.id}`);
+
+   acceptButton.addEventListener("click", () => {
+      const driverId = localStorage.getItem("driverId");
+      socket.emit("acceptOrder", {order, driverId});
+      // orderElement.remove();
+   });
+
+   rejectButton.addEventListener("click", () => {
+      socket.emit("rejectOrder", {order, driverId});
+      // orderElement.remove();
+   });
+});
+
+socket.on("orderAccepted", order => {
+   const acceptButton = document.querySelector(`#accept-order-${order.id}`);
+   const rejectButton = document.querySelector(`#reject-order-${order.id}`);
+
+   acceptButton.innerHTML = "Order Accepted";
+   rejectButton.remove();
+});
+
+socket.on("orderRejected", order => {
+   const acceptButton = document.querySelector(`#accept-order-${order.id}`);
+   const rejectButton = document.querySelector(`#reject-order-${order.id}`);
+
+   rejectButton.innerHTML = "Order Rejected";
+   acceptButton.remove();
 });

@@ -8,6 +8,19 @@
 	<body>
 		<h1>Customer App</h1>
 		<div class="alerts"></div>
+		<h2>Request a Ride: </h2>
+		<form id="requestRide">
+			<label for="currentLocation">Current Location: </label>
+			<input type="text" name="currentLocation" id="currentLocation" required/>
+			<label for="destination">Destination: </label>
+			<input type="text" name="destination" id="destination" required/>
+			<label for="price">Price (in NGN): </label>
+			<input type="number" name="price" id="price" required/>
+			<input type="submit" value="Request Ride" />
+		</form>
+
+		<h2>Current Rides: </h2>
+		<div class="orders"></div>
 
 
 		<script src="/socket.io/socket.io.js"></script>

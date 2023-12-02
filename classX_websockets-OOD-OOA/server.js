@@ -17,6 +17,20 @@ io.on("connection", (socket) => {
    // console.log({username, userType, userId});
 
    orderingApp.joinSession(socket);
+
+   socket.on("requestRide", (orderData) => {
+      orderingApp.requestOrder(orderData);
+   });
+
+   socket.on("acceptOrder", (data) => {
+      orderingApp.acceptOrder(data);
+   });
+
+   socket.on("rejectOrder", (data) => {
+      orderingApp.rejectOrder(data);
+   });
+
+   
 })
 
 app.get("/customer", (req, res) => {
