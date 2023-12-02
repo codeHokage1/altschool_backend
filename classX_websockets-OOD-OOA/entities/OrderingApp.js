@@ -2,6 +2,8 @@ const Customer = require("./Customer");
 const Driver = require("./Driver");
 const Order = require("./Order");
 
+let orderTimeout;
+
 class OrderingApp {
 	constructor() {
 		this.drivers = [];
@@ -82,6 +84,15 @@ class OrderingApp {
       }
 
       console.log("Order requested");
+      clearTimeout(orderTimeout);
+
+      orderTimeout = setTimeout(() => {
+         if(newOrder.status == "pending"){
+            console.log("No drivers accepted the order");
+            console.log("Customer is: ", foundCustomer)
+            this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
+         }
+      }, 5000);
       return order;
    }
 

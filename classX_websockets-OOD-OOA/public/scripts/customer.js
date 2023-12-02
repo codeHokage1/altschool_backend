@@ -52,3 +52,7 @@ socket.on("orderAccepted", (order) => {
       <p>Driver: ${order.driver.name}</p>`;
    ordersBox.appendChild(orderElement);
 });
+
+socket.on("overtime", order => {
+   console.log("Your order " + order.id + " is not accepted in time");
+}) 
