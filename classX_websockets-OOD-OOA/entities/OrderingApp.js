@@ -83,6 +83,7 @@ class OrderingApp {
          }
       }
 
+      this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "orderRequested");
       console.log("Order requested");
       clearTimeout(orderTimeout);
 

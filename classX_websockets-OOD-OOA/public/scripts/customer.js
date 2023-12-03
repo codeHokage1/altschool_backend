@@ -3,6 +3,7 @@ console.log(username);
 const alertsBox = document.querySelector(".alerts");
 const ordersBox = document.querySelector(".orders");
 const requestForm = document.querySelector("#requestRide");
+const processBox = document.querySelector(".order-process");
 
 const socket = io({
 	query: {
@@ -43,7 +44,22 @@ requestForm.addEventListener("submit", (e) => {
 	requestForm.reset();
 });
 
+socket.on("orderRequested", (order) => {
+   const processElement = document.createElement("div");
+   processElement.classList.add("process");
+   processElement.innerHTML = `
+      <p>Your order is in process.</p>
+      <p>Order id: ${order.id}</p>
+      <p>From: ${order.currentLocation}</p>
+      <p>To: ${order.destination}</p>
+      <p>Price: ${order.price}</p>
+      <p>Waiting for a driver.........</p>
+   `;
+   processBox.appendChild(processElement);
+})
+
 socket.on("orderAccepted", (order) => {
+   processBox.innerHTML = "";
 	const orderElement = document.createElement("div");
 	orderElement.classList.add("order");
 	orderElement.innerHTML = `
@@ -54,5 +70,12 @@ socket.on("orderAccepted", (order) => {
 });
 
 socket.on("overtime", order => {
-   console.log("Your order " + order.id + " is not accepted in time");
+   // console.log("Your order " + order.id + " is not accepted in time");
+   processBox.innerHTML = `
+      <p>Apologies. We couldn't get a driver for you at this moment. Kindly try again in a few minutes</p>
+   `;
+
+   setTimeout(() => {
+      processBox.innerHTML = "";
+   }, 5000);
 }) 

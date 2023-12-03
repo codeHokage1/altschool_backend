@@ -61,8 +61,12 @@ socket.on("orderAccepted", order => {
    const acceptButton = document.querySelector(`#accept-order-${order.id}`);
    const rejectButton = document.querySelector(`#reject-order-${order.id}`);
 
-   acceptButton.innerHTML = "Order Accepted";
-   rejectButton.remove();
+   if(acceptButton){
+      acceptButton.innerHTML = "Order Accepted";
+   }
+   if(rejectButton){
+      rejectButton.remove();
+   }
 });
 
 socket.on("orderRejected", order => {
