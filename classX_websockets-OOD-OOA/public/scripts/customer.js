@@ -71,7 +71,6 @@ socket.on("orderAccepted", (order) => {
 });
 
 socket.on("overtime", order => {
-   // console.log("Your order " + order.id + " is not accepted in time");
    processBox.innerHTML = `
       <p>Apologies. We couldn't get a driver for your order to ${order.destination} at this moment. Kindly try again in a few minutes</p>
    `;

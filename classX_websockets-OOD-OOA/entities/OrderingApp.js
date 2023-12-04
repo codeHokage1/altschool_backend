@@ -14,7 +14,6 @@ class OrderingApp {
 	}
 
 	assignSocketToUser(socket, user) {
-		// console.log("Assigning socket to ", user);
 		console.log("Assigning socket to ", user.name);
 		this.socketUserMap.set(user.id, socket);
 	}
@@ -70,9 +69,6 @@ class OrderingApp {
 
 	requestOrder(order) {
 		console.log("Requesting ride...");
-		// console.log("These are the drivers in the system: ", this.drivers)
-		// console.log("These are all the sockets in the system: ", this.socketUserMap)
-
 		const { customerId, destination, currentLocation, price } = order;
 		const foundCustomer = this.customers.find((customer) => customer.id == customerId);
 		const newOrder = new Order(foundCustomer, destination, currentLocation, price);
@@ -91,18 +87,18 @@ class OrderingApp {
 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "orderRequested");
 		console.log("Order requested");
 
-		// setTimeout(() => {
-		// 	if (newOrder.status == "pending") {
-		// 		console.log("No drivers accepted the order");
-		// 		console.log("Customer is: ", foundCustomer);
-		// 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
-		// 		for (let driver of this.drivers) {
-		// 			if (!driver.isDriving) {
-		// 				this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
-		// 			}
-		// 		}
-		// 	}
-		// }, 10000); // if the order is not accepted in 1 minute, emit this
+		setTimeout(() => {
+			if (newOrder.status == "pending") {
+				console.log("No drivers accepted the order");
+				console.log("Customer is: ", foundCustomer);
+				this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
+				for (let driver of this.drivers) {
+					if (!driver.isDriving) {
+						this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
+					}
+				}
+			}
+		}, 10000); // if the order is not accepted in 1 minute, emit this
 		return newOrder;
 	}
 

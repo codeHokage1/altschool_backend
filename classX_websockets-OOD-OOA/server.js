@@ -14,7 +14,6 @@ const orderingApp = new OrderingApp();
 io.on("connection", (socket) => {
 	console.log("A user connected");
 	const { username, userType, userId } = socket.handshake.query;
-	// console.log({username, userType, userId});
 
 	orderingApp.joinSession(socket);
 

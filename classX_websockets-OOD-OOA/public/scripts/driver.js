@@ -54,20 +54,10 @@ socket.on("orderRequested", (order) => {
       acceptButton.disabled = true;
       rejectButton.remove();
 
-      // const allAcceptButtons = document.querySelectorAll(".accept");
-      // const allRejectButtons = document.querySelectorAll(".reject");
-
-      // allAcceptButtons.forEach(button => {
-      //    button.disabled = true;
-      // })
-      // allRejectButtons.forEach(button => {
-      //    button.disabled = true;
-      // })
 	});
 
 	rejectButton.addEventListener("click", () => {
 		socket.emit("rejectOrder", { order, driverId });
-		// orderElement.remove();
 	});
 });
 
@@ -85,7 +75,6 @@ socket.on("orderAccepted", (order) => {
 });
 
 socket.on("overtime", (order) => {
-   // console.log("Order with ID: " + order.id + " expired")
 	const timedOutOrder = document.querySelector(`#order-${order.id}`);
    timedOutOrder.remove();
 });
