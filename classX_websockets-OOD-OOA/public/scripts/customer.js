@@ -59,6 +59,7 @@ socket.on("orderRequested", (order) => {
 })
 
 socket.on("orderAccepted", (order) => {
+   console.log(order);
    processBox.innerHTML = "";
 	const orderElement = document.createElement("div");
 	orderElement.classList.add("order");

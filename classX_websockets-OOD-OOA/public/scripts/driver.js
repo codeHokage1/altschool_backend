@@ -28,6 +28,7 @@ socket.on("joinSession", (data) => {
 });
 
 socket.on("orderRequested", (order) => {
+   console.log(order)
 	const orderElement = document.createElement("div");
    orderElement.id = `order-${order.id}`;
 	orderElement.classList.add("order");
@@ -50,6 +51,16 @@ socket.on("orderRequested", (order) => {
 		const driverId = localStorage.getItem("driverId");
 		socket.emit("acceptOrder", { order, driverId });
 		// orderElement.remove();
+
+      // const allAcceptButtons = document.querySelectorAll(".accept");
+      // const allRejectButtons = document.querySelectorAll(".reject");
+
+      // allAcceptButtons.forEach(button => {
+      //    button.disabled = true;
+      // })
+      // allRejectButtons.forEach(button => {
+      //    button.disabled = true;
+      // })
 	});
 
 	rejectButton.addEventListener("click", () => {
