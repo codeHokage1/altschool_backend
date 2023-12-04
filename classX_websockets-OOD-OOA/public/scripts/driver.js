@@ -82,6 +82,7 @@ socket.on("orderAccepted", (order) => {
 });
 
 socket.on("overtime", (order) => {
+   // console.log("Order with ID: " + order.id + " expired")
 	const timedOutOrder = document.querySelector(`#order-${order.id}`);
    timedOutOrder.remove();
 });

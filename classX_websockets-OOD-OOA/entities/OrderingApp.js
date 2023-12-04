@@ -2,8 +2,6 @@ const Customer = require("./Customer");
 const Driver = require("./Driver");
 const Order = require("./Order");
 
-let orderTimeout;
-
 class OrderingApp {
 	constructor() {
 		this.drivers = [];
@@ -85,20 +83,19 @@ class OrderingApp {
 
 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "orderRequested");
 		console.log("Order requested");
-		clearTimeout(orderTimeout);
 
-		// orderTimeout = setTimeout(() => {
-		// 	if (newOrder.status == "pending") {
-		// 		console.log("No drivers accepted the order");
-		// 		console.log("Customer is: ", foundCustomer);
-		// 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
-		// 		for (let driver of this.drivers) {
-		// 			if (!driver.isDriving) {
-		// 				this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
-		// 			}
-		// 		}
-		// 	}
-		// }, 30000); // if the order is not accepted in 1 minute, emit this
+		setTimeout(() => {
+			if (newOrder.status == "pending") {
+				console.log("No drivers accepted the order");
+				console.log("Customer is: ", foundCustomer);
+				this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
+				for (let driver of this.drivers) {
+					if (!driver.isDriving) {
+						this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
+					}
+				}
+			}
+		}, 10000); // if the order is not accepted in 1 minute, emit this
 		return order;
 	}
 
@@ -109,7 +106,7 @@ class OrderingApp {
 		// foundDriver.acceptRide(order);
 
 		foundOrder.assignDriver(foundDriver);
-      console.log("This is the order you just accepted: ", foundOrder);
+		console.log("This is the order you just accepted: ", foundOrder);
 		this.sendEvent(this.socketUserMap.get(foundOrder.customer.id), foundOrder, "orderAccepted");
 		this.sendEvent(this.socketUserMap.get(foundDriver.id), foundOrder, "orderAccepted");
 	}
