@@ -19,11 +19,13 @@ io.on("connection", (socket) => {
 	orderingApp.joinSession(socket);
 
 	socket.on("requestRide", (orderData) => {
-		orderingApp.requestOrder(orderData);
+		const newOrder = orderingApp.requestOrder(orderData);
+      io.to("drivers").emit("orderRequested", newOrder);
 	});
 
 	socket.on("acceptOrder", (data) => {
-		orderingApp.acceptOrder(data);
+		const acceptedOrder = orderingApp.acceptOrder(data);
+      io.to("drivers").emit("orderAccepted", acceptedOrder);
 	});
 
 	socket.on("rejectOrder", (data) => {
@@ -42,3 +44,5 @@ app.get("/driver", (req, res) => {
 server.listen(process.env.PORT, () => {
 	console.log(`Listening on port ${process.env.PORT}`);
 });
+
+module.exports = io;

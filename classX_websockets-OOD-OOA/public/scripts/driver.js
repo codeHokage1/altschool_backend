@@ -50,16 +50,19 @@ socket.on("orderRequested", (order) => {
 	acceptButton.addEventListener("click", () => {
 		const driverId = localStorage.getItem("driverId");
 		socket.emit("acceptOrder", { order, driverId });
+      acceptButton.innerHTML = "Order Accepted";
+      acceptButton.disabled = true;
+      rejectButton.remove();
 
-      const allAcceptButtons = document.querySelectorAll(".accept");
-      const allRejectButtons = document.querySelectorAll(".reject");
+      // const allAcceptButtons = document.querySelectorAll(".accept");
+      // const allRejectButtons = document.querySelectorAll(".reject");
 
-      allAcceptButtons.forEach(button => {
-         button.disabled = true;
-      })
-      allRejectButtons.forEach(button => {
-         button.disabled = true;
-      })
+      // allAcceptButtons.forEach(button => {
+      //    button.disabled = true;
+      // })
+      // allRejectButtons.forEach(button => {
+      //    button.disabled = true;
+      // })
 	});
 
 	rejectButton.addEventListener("click", () => {
@@ -74,6 +77,7 @@ socket.on("orderAccepted", (order) => {
 
 	if (acceptButton) {
 		acceptButton.innerHTML = "Order Accepted";
+      acceptButton.disabled = true;
 	}
 	if (rejectButton) {
 		rejectButton.remove();

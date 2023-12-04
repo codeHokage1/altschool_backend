@@ -1,7 +1,6 @@
 const Customer = require("./Customer");
 const Driver = require("./Driver");
 const Order = require("./Order");
-
 class OrderingApp {
 	constructor() {
 		this.drivers = [];
@@ -35,6 +34,7 @@ class OrderingApp {
 				this.assignSocketToUser(socket, driver);
 				this.sendEvent(socket, driver, "driverCreated");
 				console.log("Driver created");
+            socket.join("drivers");
 				return driver;
 			default:
 				console.log("Invalid user type");
@@ -58,6 +58,7 @@ class OrderingApp {
 		} else if (userType === "driver") {
 			const foundDriver = this.drivers.find((driver) => driver.id == userId);
 			if (foundDriver) {
+            socket.join("drivers");
 				return this.assignSocketToUser(socket, foundDriver);
 			} else {
 				this.createUser(username, userType, socket);
@@ -69,46 +70,53 @@ class OrderingApp {
 
 	requestOrder(order) {
 		console.log("Requesting ride...");
+		// console.log("These are the drivers in the system: ", this.drivers)
+		// console.log("These are all the sockets in the system: ", this.socketUserMap)
+
 		const { customerId, destination, currentLocation, price } = order;
 		const foundCustomer = this.customers.find((customer) => customer.id == customerId);
 		const newOrder = new Order(foundCustomer, destination, currentLocation, price);
 		this.orders.push(newOrder);
 
 		foundCustomer.requestRide(order);
-		for (let driver of this.drivers) {
-			if (!driver.isDriving) {
-				this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "orderRequested");
-			}
-		}
+		// for (let driver of this.drivers) {
+		// 	if (!driver.isDriving) {
+		// 		console.log("This driver is not driving and will receive order: ", driver);
 
+		// 		this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "orderRequested");
+		// 	}
+		// }
+
+      // socket.to("drivers").emit("orderRequested", newOrder);
 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "orderRequested");
 		console.log("Order requested");
 
-		setTimeout(() => {
-			if (newOrder.status == "pending") {
-				console.log("No drivers accepted the order");
-				console.log("Customer is: ", foundCustomer);
-				this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
-				for (let driver of this.drivers) {
-					if (!driver.isDriving) {
-						this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
-					}
-				}
-			}
-		}, 10000); // if the order is not accepted in 1 minute, emit this
-		return order;
+		// setTimeout(() => {
+		// 	if (newOrder.status == "pending") {
+		// 		console.log("No drivers accepted the order");
+		// 		console.log("Customer is: ", foundCustomer);
+		// 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
+		// 		for (let driver of this.drivers) {
+		// 			if (!driver.isDriving) {
+		// 				this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
+		// 			}
+		// 		}
+		// 	}
+		// }, 10000); // if the order is not accepted in 1 minute, emit this
+		return newOrder;
 	}
 
 	acceptOrder({ order, driverId }) {
 		const foundDriver = this.drivers.find((driver) => driver.id == driverId);
 		const foundOrder = this.orders.find((orderInArr) => orderInArr.id == order.id);
-		// console.log("Accepting order...", { order, driverId });
-		// foundDriver.acceptRide(order);
+		const driverSocket = this.socketUserMap.get(foundDriver.id);
+      driverSocket.leave("drivers"); // remove the driver from the drivers room
 
 		foundOrder.assignDriver(foundDriver);
 		console.log("This is the order you just accepted: ", foundOrder);
 		this.sendEvent(this.socketUserMap.get(foundOrder.customer.id), foundOrder, "orderAccepted");
-		this.sendEvent(this.socketUserMap.get(foundDriver.id), foundOrder, "orderAccepted");
+		// this.sendEvent(this.socketUserMap.get(foundDriver.id), foundOrder, "orderAccepted");
+      return foundOrder;
 	}
 
 	rejectOrder({ order, driverId }) {
