@@ -57,7 +57,11 @@ socket.on("orderRequested", (order) => {
 	});
 
 	rejectButton.addEventListener("click", () => {
+		const driverId = localStorage.getItem("driverId");
 		socket.emit("rejectOrder", { order, driverId });
+      rejectButton.innerHTML = "Order Rejected";
+      rejectButton.disabled = true;
+      acceptButton.remove();
 	});
 });
 
