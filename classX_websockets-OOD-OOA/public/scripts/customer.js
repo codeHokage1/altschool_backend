@@ -45,9 +45,9 @@ requestForm.addEventListener("submit", (e) => {
 });
 
 socket.on("orderRequested", (order) => {
-   const processElement = document.createElement("div");
-   processElement.classList.add("process");
-   processElement.innerHTML = `
+	const processElement = document.createElement("div");
+	processElement.classList.add("process");
+	processElement.innerHTML = `
       <p>Your order is in process.</p>
       <p>Order id: ${order.id}</p>
       <p>From: ${order.currentLocation}</p>
@@ -55,27 +55,36 @@ socket.on("orderRequested", (order) => {
       <p>Price: ${order.price}</p>
       <p>Waiting for a driver.........</p>
    `;
-   processBox.appendChild(processElement);
-})
+	processBox.appendChild(processElement);
+});
 
 socket.on("orderAccepted", (order) => {
-   console.log(order);
-   processBox.innerHTML = "";
+	console.log(order);
+	processBox.innerHTML = "";
 	const orderElement = document.createElement("div");
 	orderElement.classList.add("order");
+	orderElement.id = `order-${order.id}`;
 	orderElement.innerHTML = `
       <p>Your order is accepted.</p>
       <p>Order id: ${order.id}</p>
       <p>Driver: ${order.driver.name}</p>`;
-   ordersBox.appendChild(orderElement);
+	ordersBox.appendChild(orderElement);
 });
 
-socket.on("overtime", order => {
-   processBox.innerHTML = `
+socket.on("overtime", (order) => {
+	processBox.innerHTML = `
       <p>Apologies. We couldn't get a driver for your order to ${order.destination} at this moment. Kindly try again in a few minutes</p>
    `;
 
-   setTimeout(() => {
-      processBox.innerHTML = "";
-   }, 5000);
-}) 
+	setTimeout(() => {
+		processBox.innerHTML = "";
+	}, 5000);
+});
+
+socket.on("orderCompleted", (order) => {
+	const orderElement = document.querySelector(`#order-${order.id}`);
+	orderElement.innerHTML = `
+      <p>You have arrived at your destination!</p>
+      <p>Order id: ${order.id}</p>
+      <p>Driver: ${order.driver.name}</p>`;
+});

@@ -14,10 +14,6 @@ class Order {
       this.status = "accepted";
       console.log(`Order ${this.id} is accepted by driver ${this.driver.name}`);
    }
-
-   sayHello(){
-      console.log("Hello");
-   }
 }
 
 module.exports = Order;

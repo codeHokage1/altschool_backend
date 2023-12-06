@@ -87,18 +87,18 @@ class OrderingApp {
 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "orderRequested");
 		console.log("Order requested");
 
-		setTimeout(() => {
-			if (newOrder.status == "pending") {
-				console.log("No drivers accepted the order");
-				console.log("Customer is: ", foundCustomer);
-				this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
-				for (let driver of this.drivers) {
-					if (!driver.isDriving) {
-						this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
-					}
-				}
-			}
-		}, 10000); // if the order is not accepted in 1 minute, emit this
+		// setTimeout(() => {
+		// 	if (newOrder.status == "pending") {
+		// 		console.log("No drivers accepted the order");
+		// 		console.log("Customer is: ", foundCustomer);
+		// 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
+		// 		for (let driver of this.drivers) {
+		// 			if (!driver.isDriving) {
+		// 				this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
+		// 			}
+		// 		}
+		// 	}
+		// }, 10000); // if the order is not accepted in 1 minute, emit this
 		return newOrder;
 	}
 
@@ -106,12 +106,12 @@ class OrderingApp {
 		const foundDriver = this.drivers.find((driver) => driver.id == driverId);
 		const foundOrder = this.orders.find((orderInArr) => orderInArr.id == order.id);
 		const driverSocket = this.socketUserMap.get(foundDriver.id);
-      driverSocket.leave("drivers"); // remove the driver from the drivers room
 
 		foundOrder.assignDriver(foundDriver);
 		console.log("This is the order you just accepted: ", foundOrder);
 		this.sendEvent(this.socketUserMap.get(foundOrder.customer.id), foundOrder, "orderAccepted");
-		// this.sendEvent(this.socketUserMap.get(foundDriver.id), foundOrder, "orderAccepted");
+		this.sendEvent(this.socketUserMap.get(foundDriver.id), foundOrder, "orderAccepted");
+      driverSocket.leave("drivers"); // remove the driver from the drivers room
       return foundOrder;
 	}
 
@@ -119,6 +119,17 @@ class OrderingApp {
 		const foundDriver = this.drivers.find((driver) => driver.id == driverId);
 		foundDriver.rejectRide(order);
 		this.sendEvent(this.socketUserMap.get(foundDriver.id), order, "orderRejected");
+	}
+
+	finishOrder({order, driverId}){
+		const foundDriver = this.drivers.find((driver) => driver.id == driverId);
+		const foundOrder = this.orders.find((orderInArr) => orderInArr.id == order.id);
+		const driverSocket = this.socketUserMap.get(foundDriver.id);
+      driverSocket.join("drivers"); // add the driver back to the drivers room so they can receive orders
+
+		foundOrder.status = "completed"
+		this.sendEvent(this.socketUserMap.get(foundOrder.customer.id), foundOrder, "orderCompleted");
+      return foundOrder;
 	}
 }
 

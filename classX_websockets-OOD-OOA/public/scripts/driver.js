@@ -66,8 +66,24 @@ socket.on("orderRequested", (order) => {
 });
 
 socket.on("orderAccepted", (order) => {
+	const orderContainer = document.querySelector(`#order-${order.id}`);
 	const acceptButton = document.querySelector(`#accept-order-${order.id}`);
 	const rejectButton = document.querySelector(`#reject-order-${order.id}`);
+
+	if(order.driver.id === localStorage.getItem('driverId')){
+		const finishButton = document.createElement("button");
+		finishButton.id = `finish-order-${order.id}`;
+		finishButton.classList.add("finish");
+		finishButton.innerHTML = "Finish Ride";
+		orderContainer.appendChild(finishButton);
+
+
+		finishButton.addEventListener("click", () => {
+			socket.emit("finishOrder", { order, driverId: localStorage.getItem("driverId") });
+			finishButton.disabled = true;
+			finishButton.innerHTML = "Order Completed"
+		})
+	}
 
 	if (acceptButton) {
 		acceptButton.innerHTML = "Order Accepted";
@@ -90,3 +106,7 @@ socket.on("orderRejected", (order) => {
 	rejectButton.innerHTML = "Order Rejected";
 	acceptButton.remove();
 });
+
+// socket.on("orderCompleted", order => {
+
+// })

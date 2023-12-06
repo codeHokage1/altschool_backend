@@ -30,6 +30,10 @@ io.on("connection", (socket) => {
 	socket.on("rejectOrder", (data) => {
 		orderingApp.rejectOrder(data);
 	});
+
+	socket.on("finishOrder", (data) => {
+		orderingApp.finishOrder(data);
+	});
 });
 
 app.get("/customer", (req, res) => {
