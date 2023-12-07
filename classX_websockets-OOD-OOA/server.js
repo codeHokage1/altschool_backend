@@ -16,23 +16,25 @@ io.on("connection", (socket) => {
 	const { username, userType, userId } = socket.handshake.query;
 
 	orderingApp.joinSession(socket);
+	orderingApp.displayOrders(socket);
 
-	socket.on("requestRide", (orderData) => {
-		const newOrder = orderingApp.requestOrder(orderData);
+	socket.on("requestRide", async (orderData) => {
+		const newOrder = await orderingApp.requestOrder(orderData);
+		console.log("Order requested at the server level: ", newOrder)
       io.to("drivers").emit("orderRequested", newOrder);
 	});
 
-	socket.on("acceptOrder", (data) => {
-		const acceptedOrder = orderingApp.acceptOrder(data);
+	socket.on("acceptOrder", async (data) => {
+		const acceptedOrder = await orderingApp.acceptOrder(data);
       io.to("drivers").emit("orderAccepted", acceptedOrder);
 	});
 
-	socket.on("rejectOrder", (data) => {
-		orderingApp.rejectOrder(data);
+	socket.on("rejectOrder", async (data) => {
+		await orderingApp.rejectOrder(data);
 	});
 
-	socket.on("finishOrder", (data) => {
-		orderingApp.finishOrder(data);
+	socket.on("finishOrder", async (data) => {
+		await orderingApp.finishOrder(data);
 	});
 });
 
@@ -44,8 +46,8 @@ app.get("/driver", (req, res) => {
 	res.sendFile(path.join(__dirname, "public", "driver.html"));
 });
 
-server.listen(process.env.PORT, () => {
-	console.log(`Listening on port ${process.env.PORT}`);
-});
+// server.listen(process.env.PORT, () => {
+// 	console.log(`Listening on port ${process.env.PORT}`);
+// });
 
-module.exports = io;
+module.exports = server;

@@ -1,6 +1,6 @@
 class Customer {
-   constructor(name){
-      this.id = Math.floor(Math.random() * 1000 + 1).toString();
+   constructor(name, id){
+      this.id = id;
       this.name = name;
    }
 

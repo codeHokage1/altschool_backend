@@ -29,6 +29,24 @@ socket.on("joinSession", (data) => {
 	alertsBox.appendChild(alert);
 });
 
+socket.on("displayOrders", (orders) => {
+	console.log(orders);
+	orders.forEach((order) => {
+		const orderElement = document.createElement("div");
+		orderElement.classList.add("order");
+		orderElement.id = `order-${order.id}`;
+		orderElement.innerHTML = `
+      ${
+				order.status === "completed"
+					? "<p>You have arrived at your destination!</p>"
+					: "You are currently on a ride"
+			}
+      <p>Order id: ${order.id}</p>
+      <p>Driver: ${order.driver.name}</p>`;
+		ordersBox.appendChild(orderElement);
+	});
+});
+
 requestForm.addEventListener("submit", (e) => {
 	e.preventDefault();
 	const currentLocation = requestForm.elements.currentLocation.value;

@@ -27,10 +27,43 @@ socket.on("joinSession", (data) => {
 	alertsBox.appendChild(alert);
 });
 
+socket.on("displayOrders", (orders) => {
+	console.log(orders);
+	orders.forEach((order) => {
+		const orderElement = document.createElement("div");
+		orderElement.classList.add("order");
+		orderElement.id = `order-${order.id}`;
+		orderElement.innerHTML = `
+			<p>Order id: ${order.id}</p>
+			<p>Customer: ${order.customer.name}</p>
+			<p>From: ${order.currentLocation}</p>
+			<p>To: ${order.destination}</p>
+			<p>Price: ${order.price}</p>
+			${
+				order.status === "completed"
+					? "<p>You have completed this ride!</p>"
+					: `<button class="finish" id="finish-order-${order.id}">Finish Ride</button>`
+			}
+		`;
+
+		if (order.status !== "completed") {
+			const finishButton = document.querySelector(`#finish-order-${order.id}`);
+			if(finishButton){
+				finishButton.addEventListener("click", () => {
+					socket.emit("finishOrder", { order, driverId: localStorage.getItem("driverId") });
+					finishButton.disabled = true;
+					finishButton.innerHTML = "Order Completed";
+				});
+			}
+		}
+		ordersBox.appendChild(orderElement);
+	});
+});
+
 socket.on("orderRequested", (order) => {
-   console.log(order)
+	console.log(order);
 	const orderElement = document.createElement("div");
-   orderElement.id = `order-${order.id}`;
+	orderElement.id = `order-${order.id}`;
 	orderElement.classList.add("order");
 	orderElement.innerHTML = `
       <p>A new ride order is in.</p>
@@ -50,18 +83,17 @@ socket.on("orderRequested", (order) => {
 	acceptButton.addEventListener("click", () => {
 		const driverId = localStorage.getItem("driverId");
 		socket.emit("acceptOrder", { order, driverId });
-      acceptButton.innerHTML = "Order Accepted";
-      acceptButton.disabled = true;
-      rejectButton.remove();
-
+		acceptButton.innerHTML = "Order Accepted";
+		acceptButton.disabled = true;
+		rejectButton.remove();
 	});
 
 	rejectButton.addEventListener("click", () => {
 		const driverId = localStorage.getItem("driverId");
 		socket.emit("rejectOrder", { order, driverId });
-      rejectButton.innerHTML = "Order Rejected";
-      rejectButton.disabled = true;
-      acceptButton.remove();
+		rejectButton.innerHTML = "Order Rejected";
+		rejectButton.disabled = true;
+		acceptButton.remove();
 	});
 });
 
@@ -70,24 +102,23 @@ socket.on("orderAccepted", (order) => {
 	const acceptButton = document.querySelector(`#accept-order-${order.id}`);
 	const rejectButton = document.querySelector(`#reject-order-${order.id}`);
 
-	if(order.driver.id === localStorage.getItem('driverId')){
+	if (order.driver.id === localStorage.getItem("driverId")) {
 		const finishButton = document.createElement("button");
 		finishButton.id = `finish-order-${order.id}`;
 		finishButton.classList.add("finish");
 		finishButton.innerHTML = "Finish Ride";
 		orderContainer.appendChild(finishButton);
 
-
 		finishButton.addEventListener("click", () => {
 			socket.emit("finishOrder", { order, driverId: localStorage.getItem("driverId") });
 			finishButton.disabled = true;
-			finishButton.innerHTML = "Order Completed"
-		})
+			finishButton.innerHTML = "Order Completed";
+		});
 	}
 
 	if (acceptButton) {
 		acceptButton.innerHTML = "Order Accepted";
-      acceptButton.disabled = true;
+		acceptButton.disabled = true;
 	}
 	if (rejectButton) {
 		rejectButton.remove();
@@ -96,7 +127,7 @@ socket.on("orderAccepted", (order) => {
 
 socket.on("overtime", (order) => {
 	const timedOutOrder = document.querySelector(`#order-${order.id}`);
-   timedOutOrder.remove();
+	timedOutOrder.remove();
 });
 
 socket.on("orderRejected", (order) => {
@@ -104,9 +135,7 @@ socket.on("orderRejected", (order) => {
 	const rejectButton = document.querySelector(`#reject-order-${order.id}`);
 
 	rejectButton.innerHTML = "Order Rejected";
-	acceptButton.remove();
+	if (acceptButton) {
+		acceptButton.remove();
+	}
 });
-
-// socket.on("orderCompleted", order => {
-
-// })
