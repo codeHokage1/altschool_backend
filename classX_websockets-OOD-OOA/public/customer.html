@@ -4,26 +4,63 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Customer App</title>
+		<link rel="stylesheet" href="./styles/customer.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<h1>Customer App</h1>
-		<div class="alerts"></div>
-		<h2>Request a Ride: </h2>
-		<form id="requestRide">
-			<label for="currentLocation">Current Location: </label>
-			<input type="text" name="currentLocation" id="currentLocation" required/>
-			<label for="destination">Destination: </label>
-			<input type="text" name="destination" id="destination" required/>
-			<label for="price">Price (in NGN): </label>
-			<input type="number" name="price" id="price" required/>
-			<input type="submit" value="Request Ride" />
-		</form>
+		<main>
+			<section class="header">
+				<div class="brand">
+					<img
+						src="https://img.icons8.com/hands/100/experimental-car-hands.png"
+						alt="A car being hand-picked"
+					/>
+					<h1>PickLyft</h1>
+				</div>
 
-		<div class="order-process"></div>
+				<p class="user-type">/ Customer</p>
+			</section>
 
-		<h2>Current Rides: </h2>
-		<div class="orders"></div>
+			<div class="container">
+				<section class="intro">
+					<h1>Hey, <span id="username" class="username">Ganiya</span>!</h1>
+					<p>Where would you like to go today?</p>
+				</section>
 
+				<section class="alerts"></section>
+
+				<section class="request-order">
+					<h2>Request a Ride:</h2>
+					<form id="requestRide">
+						<div class="form-row">
+							<label for="currentLocation">Current Location: </label>
+							<input type="text" name="currentLocation" id="currentLocation" required />
+						</div>
+						<div class="form-row">
+							<label for="destination">Destination: </label>
+							<input type="text" name="destination" id="destination" required />
+						</div>
+						<div class="form-row">
+							<label for="price">Price (in NGN): </label>
+							<input type="number" name="price" id="price" required />
+						</div>
+						<input type="submit" value="Request Ride" />
+					</form>
+				</section>
+
+				<div class="order-process"></div>
+
+				<div class="rides">
+					<h2>Your Rides:</h2>
+					<div class="orders"></div>
+				</div>
+			</div>
+		</main>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="./scripts/customer.js"></script>

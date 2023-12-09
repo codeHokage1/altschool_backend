@@ -37,6 +37,10 @@ main p{
 .brand h1{
    font-size: 3rem;
    font-family: var(--font-heading);
+   margin: 0;
+}
+.brand img{
+   width: 150px;
 }
 .info{
    display: flex;
