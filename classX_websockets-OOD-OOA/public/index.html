@@ -3,23 +3,68 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Car Order</title>
+		<title>PickLyft: Homepage</title>
+		<link rel="stylesheet" href="./styles/index.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<h1>Car Order Service</h1>
+		<main>
+			<section class="brand">
+				<div class="header">
+					<img
+						src="https://img.icons8.com/hands/100/experimental-car-hands.png"
+						alt="A car being hand-picked"
+					/>
+					<h1>PickLyft</h1>
+				</div>
 
-		<form id="login-form">
-			<label for="username">Username</label>
-			<input type="text" name="username" id="username" required/>
-			<label for="user-type">User Type:</label>
-			<select name="user-type" id="user-type">
-				<option value="customer">Customer</option>
-				<option value="driver">Driver</option>
-			</select>
-			<button type="submit">Login</button>
-		</form>
+				<div class="info">
+					<p class="info-motto">Linking where you are to where you want to be.</p>
+					<p class="info-text">
+						With PickLift, you can order a ride, connect with a driver around you and negotiate your
+						price.
+					</p>
+					<p class="info-text">
+						Whether you want to quickly order a ride, or you want to use your vehicle to make some
+						extra cash today, Get Starter right now.
+					</p>
 
+					<div class="cta">
+						<p>Ride On!</p>
+						<img
+							src="https://img.icons8.com/ios/50/long-arrow-right--v1.png"
+							alt="long-arrow-right--v1"
+						/>
+					</div>
+				</div>
+			</section>
 
-      <script src="./scripts/main.js"></script>
+			<div class="form">
+				<h2>Get Started</h2>
+				<form id="login-form">
+					<div class="form-row">
+						<label for="username">Username</label>
+						<input type="text" name="username" id="username" 
+						placeholder="Enter your username" 
+						required />
+					</div>
+					<div class="form-row">
+						<label for="user-type">User Type:</label>
+						<select name="user-type" id="user-type">
+							<option value="customer">Customer</option>
+							<option value="driver">Driver</option>
+						</select>
+					</div>
+					<button type="submit">Login</button>
+				</form>
+			</div>
+		</main>
+
+		<script src="./scripts/main.js"></script>
 	</body>
 </html>

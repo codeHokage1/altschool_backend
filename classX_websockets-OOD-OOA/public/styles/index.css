@@ -1,5 +1,122 @@
-*{
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--font-heading: "Space Grotesk", sans-serif;
+	--font-body: "Raleway", sans-serif;
+}
+body {
+	font-family: var(--font-body);
+	font-size: 1.2rem;
+	line-height: 1.5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+   max-width: 80%;
+}
+main p{
+   margin: 0;
+}
+
+.brand {
+   max-width: 50%;
+}
+.header{
+   text-align: center;
+}
+.brand h1{
+   font-size: 3rem;
+   font-family: var(--font-heading);
+}
+.info{
+   display: flex;
+   flex-direction: column;
+   gap: .5em;
+}
+.info-motto{
+   text-align: center;
+}
+.info-text{
+   font-size: 1.1rem;
+}
+.cta{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: .5em;
+   border: 2px dashed burlywood;
+   padding: .5em 1.5em;
+   align-self: center;
+   border-radius: 40px;
+   margin-top: 1em;
+
+}
+.cta img{
+   width: 1.5em;
+}
+.cta:hover{
+   background-color: burlywood;
+   color: white;
+   cursor: pointer;
+}
+
+.form{
+   background-color: burlywood;
+   margin-left: 2em;
+   padding: 1.5em;
+   color: white;
+   text-shadow: 0 0 2px black;
+   width: 50%;
+   box-shadow: 15px 15px grey;
+   transition: all .3s;
+}
+.form:hover{
+   box-shadow: 0 0 0;
+   transform: scale(1.1);
+}
+.form-row{
+   display: flex;
+   flex-direction: column;
+   margin: .5em 0;
+}
+.form-row label{
+   font-size: 1.1rem;
+   font-weight: bold;
+}
+.form input, .form select{
+   padding: .5em;
+   border-radius: 5px;
+   border: none;
+   outline: none;
+   font-size: 1rem;
+   font-family: var(--font-body);
+}
+button{
+   padding: .5em 1em;
+   border-radius: 5px;
+   border: none;
+   outline: none;
+   font-size: 1rem;
+   font-family: var(--font-body);
+   cursor: pointer;
+   background-color: white;
+   color: black;
+   font-weight: bold;
+   margin: 0 auto;
+   display: block;
+   margin-top: 1em;
+}
+button:hover{
+   background-color: black;
+   color: white;
 }
