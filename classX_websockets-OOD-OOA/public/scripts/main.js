@@ -1,4 +1,4 @@
-const serverUrl = `https://picklyft.onrender.com/`;
+const serverUrl = `https://picklyft.onrender.com`;
 const form = document.querySelector("#login-form");
 
 console.log(serverUrl);
