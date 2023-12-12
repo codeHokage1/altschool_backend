@@ -4,7 +4,7 @@
 	"description": "A web application for managing car rides for clients and drivers",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js",
+		"start": "node app",
 		"dev": "nodemon app"
 	},
 	"author": "",
