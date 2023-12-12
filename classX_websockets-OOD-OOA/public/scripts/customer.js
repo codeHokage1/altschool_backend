@@ -96,9 +96,11 @@ socket.on("orderAccepted", (order) => {
 
 socket.on("overtime", (order) => {
 	processBox.innerHTML = `
-		<h3>Sorry!</h3>
-      <p>Apologies. We couldn't get a driver for your order to ${order.destination} at this moment. Kindly try again in a few minutes</p>
-   `;
+		<div class="process">
+			<h3>Sorry!</h3>
+	      <p>Apologies. We couldn't get a driver for your order to ${order.destination} at this moment. Kindly try again in a few minutes</p>
+		</div>   
+	`;
 
 	setTimeout(() => {
 		processBox.innerHTML = "";
