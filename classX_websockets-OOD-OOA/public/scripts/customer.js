@@ -23,12 +23,12 @@ socket.on("customerCreated", (data) => {
 	localStorage.setItem("customerId", data.id);
 });
 
-socket.on("joinSession", (data) => {
-	const alert = document.createElement("p");
-	alert.classList.add("alert");
-	alert.textContent = `${data.from}: ${data.message}`;
-	alertsBox.appendChild(alert);
-});
+// socket.on("joinSession", (data) => {
+// 	const alert = document.createElement("p");
+// 	alert.classList.add("alert");
+// 	alert.textContent = `${data.from}: ${data.message}`;
+// 	alertsBox.appendChild(alert);
+// });
 
 socket.on("displayOrders", (orders) => {
 	console.log(orders);
