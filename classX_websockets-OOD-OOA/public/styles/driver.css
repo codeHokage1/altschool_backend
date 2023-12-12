@@ -1,0 +1,121 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--font-heading: "Space Grotesk", sans-serif;
+	--font-body: "Raleway", sans-serif;
+}
+
+body {
+	font-family: var(--font-body);
+	font-size: 1.1rem;
+	line-height: 1.5;
+	padding: 2em;
+}
+body p {
+	margin: 0;
+}
+
+main {
+	border: 1px solid black;
+}
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.5em 1em;
+	background-color: burlywood;
+}
+.brand {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5em;
+}
+.brand h1 {
+	font-family: var(--font-heading);
+	margin: 0;
+}
+.brand img {
+	width: 50px;
+}
+.user-type {
+	font-weight: bold;
+	font-family: var(--font-heading);
+	font-size: 1.5rem;
+}
+
+.container {
+	padding: 0 2em;
+}
+.container section {
+	margin: 1em 0;
+}
+.container h2 {
+	font-family: var(--font-heading);
+	font-size: 1.5rem;
+	color: burlywood;
+	margin-bottom: 0.3em;
+}
+.intro {
+	margin-bottom: 1em;
+	font-size: 1.5rem;
+}
+button {
+   padding: 0.5em 1em;
+   border: none;
+   border-radius: 5px;
+   background-color: burlywood;
+   font-size: 1rem;
+   cursor: pointer;
+   color: white;
+}
+button:hover {
+   background-color: #8a5d3b;
+}
+
+.orders{
+   border: 2px solid black;
+   margin-bottom: 2em;
+   display: flex;
+}
+
+.orders .order{
+   border: 1px solid burlywood;
+   padding: 1em;
+   margin: 1em;
+   gap: 1em;
+   border-radius: 5px;
+}
+.order h3{
+	font-family: var(--font-heading);
+}
+.accept, .reject, .finish{
+   padding: 0.5em 1em;
+   border: none;
+   border-radius: 5px;
+   font-size: 1rem;
+   cursor: pointer;
+   color: white;
+   margin: 1em 0;
+}
+.accept{
+   background-color: green;
+}
+.reject{
+   background-color: red;
+}
+.finish{
+   background-color: blue;
+}
+.done{
+   background-color: grey;
+   cursor: not-allowed;
+}
+.done:hover{
+   background-color: grey;
+   cursor: not-allowed;
+}

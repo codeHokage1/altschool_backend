@@ -4,11 +4,42 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Driver App</title>
+		<link rel="stylesheet" href="./styles/driver.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<h1>Driver App</h1>
-		<div class="alerts"></div>
-		<div class="orders"></div>
+		<main>
+			<section class="header">
+				<div class="brand">
+					<img
+						src="https://img.icons8.com/hands/100/experimental-car-hands.png"
+						alt="A car being hand-picked"
+					/>
+					<h1>PickLyft</h1>
+				</div>
+
+				<p class="user-type">/ Driver</p>
+			</section>
+
+			<div class="container">
+				<section class="intro">
+					<h1>Hey, <span id="username" class="username"></span>!</h1>
+					<p>Ready to take some rides?</p>
+					<p>Orders close-by will appear shortly.</p>
+				</section>
+
+				<div class="alerts"></div>
+				<h2>Available Orders:</h2>
+				<div class="orders">
+					
+				</div>
+			</div>
+		</main>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="./scripts/driver.js"></script>

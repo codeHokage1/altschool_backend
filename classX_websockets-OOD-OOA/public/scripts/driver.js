@@ -1,5 +1,6 @@
 const username = window.location.search.split("=")[1];
 console.log(username);
+document.querySelector("#username").textContent = username;
 const alertsBox = document.querySelector(".alerts");
 const ordersBox = document.querySelector(".orders");
 
@@ -48,7 +49,7 @@ socket.on("displayOrders", (orders) => {
 
 		if (order.status !== "completed") {
 			const finishButton = document.querySelector(`#finish-order-${order.id}`);
-			if(finishButton){
+			if (finishButton) {
 				finishButton.addEventListener("click", () => {
 					socket.emit("finishOrder", { order, driverId: localStorage.getItem("driverId") });
 					finishButton.disabled = true;
@@ -66,7 +67,7 @@ socket.on("orderRequested", (order) => {
 	orderElement.id = `order-${order.id}`;
 	orderElement.classList.add("order");
 	orderElement.innerHTML = `
-      <p>A new ride order is in.</p>
+      <h3>A new ride order is in.</h3>
       <p>Order id: ${order.id}</p>
       <p>Customer: ${order.customer.name}</p>
       <p>From: ${order.currentLocation}</p>
@@ -85,6 +86,7 @@ socket.on("orderRequested", (order) => {
 		socket.emit("acceptOrder", { order, driverId });
 		acceptButton.innerHTML = "Order Accepted";
 		acceptButton.disabled = true;
+		acceptButton.classList.add("done");
 		rejectButton.remove();
 	});
 
@@ -93,6 +95,7 @@ socket.on("orderRequested", (order) => {
 		socket.emit("rejectOrder", { order, driverId });
 		rejectButton.innerHTML = "Order Rejected";
 		rejectButton.disabled = true;
+		rejectButton.classList.add("done");
 		acceptButton.remove();
 	});
 });
@@ -112,6 +115,7 @@ socket.on("orderAccepted", (order) => {
 		finishButton.addEventListener("click", () => {
 			socket.emit("finishOrder", { order, driverId: localStorage.getItem("driverId") });
 			finishButton.disabled = true;
+			finishButton.classList.add("done");
 			finishButton.innerHTML = "Order Completed";
 		});
 	}
