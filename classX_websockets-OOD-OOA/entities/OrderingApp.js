@@ -121,20 +121,20 @@ class OrderingApp {
 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "orderRequested");
 		console.log("Order requested");
 
-		// setTimeout(() => {
-		// 	if (newOrder.status == "pending") {
-		// 		console.log("No drivers accepted the order");
-		// 		console.log("Customer is: ", foundCustomer);
-		// 		this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
-		// 		for (let driver of this.drivers) {
-		// 			if (!driver.isDriving) {
-		// 				this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
-		// 			}
-		// 		}
+		setTimeout(() => {
+			if (newOrder.status == "pending") {
+				console.log("No drivers accepted the order");
+				console.log("Customer is: ", foundCustomer);
+				this.sendEvent(this.socketUserMap.get(foundCustomer.id), newOrder, "overtime");
+				for (let driver of this.drivers) {
+					if (!driver.isDriving) {
+						this.sendEvent(this.socketUserMap.get(driver.id), newOrder, "overtime");
+					}
+				}
 
-		// 		this.orders = this.orders.filter((order) => order.id != newOrder.id); // remove the order from the orders array
-		// 	}
-		// }, 10000); // if the order is not accepted in 1 minute, emit this
+				this.orders = this.orders.filter((order) => order.id != newOrder.id); // remove the order from the orders array
+			}
+		}, 10000); // if the order is not accepted in 1 minute, emit this
 		console.log("Order at BE before returning for drivers: ", newOrder);
 		return newOrder;
 	}

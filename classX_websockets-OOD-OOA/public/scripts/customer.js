@@ -84,7 +84,7 @@ socket.on("orderAccepted", (order) => {
 	orderElement.classList.add("order");
 	orderElement.id = `order-${order.id}`;
 	orderElement.innerHTML = `
-      <h3>Your order is accepted.</h3>
+      <h3>Your order is accepted. You are enroute!</h3>
       <p>Order id: ${order.id}</p>
       <p>Driver: ${order.driver.name}</p>
 		<p>From: ${order.currentLocation}</p>
