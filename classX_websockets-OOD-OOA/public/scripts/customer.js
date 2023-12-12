@@ -1,5 +1,6 @@
 const username = window.location.search.split("=")[1];
 console.log(username);
+document.querySelector("#username").textContent = username;
 const alertsBox = document.querySelector(".alerts");
 const ordersBox = document.querySelector(".orders");
 const requestForm = document.querySelector("#requestRide");
@@ -66,12 +67,12 @@ socket.on("orderRequested", (order) => {
 	const processElement = document.createElement("div");
 	processElement.classList.add("process");
 	processElement.innerHTML = `
-      <p>Your order is in process.</p>
+		<img src="https://media.giphy.com/media/PkoBC2GlkLJ5yFIWtf/giphy.gif" alt="loading" />
+		<h3>Ride Requested! Waiting for a driver.</h3>
       <p>Order id: ${order.id}</p>
       <p>From: ${order.currentLocation}</p>
       <p>To: ${order.destination}</p>
       <p>Price: ${order.price}</p>
-      <p>Waiting for a driver.........</p>
    `;
 	processBox.appendChild(processElement);
 });
@@ -83,14 +84,19 @@ socket.on("orderAccepted", (order) => {
 	orderElement.classList.add("order");
 	orderElement.id = `order-${order.id}`;
 	orderElement.innerHTML = `
-      <p>Your order is accepted.</p>
+      <h3>Your order is accepted.</h3>
       <p>Order id: ${order.id}</p>
-      <p>Driver: ${order.driver.name}</p>`;
+      <p>Driver: ${order.driver.name}</p>
+		<p>From: ${order.currentLocation}</p>
+		<p>To: ${order.destination}</p>
+		<p>Price: ${order.price}</p>
+	`;
 	ordersBox.appendChild(orderElement);
 });
 
 socket.on("overtime", (order) => {
 	processBox.innerHTML = `
+		<h3>Sorry!</h3>
       <p>Apologies. We couldn't get a driver for your order to ${order.destination} at this moment. Kindly try again in a few minutes</p>
    `;
 
@@ -102,7 +108,11 @@ socket.on("overtime", (order) => {
 socket.on("orderCompleted", (order) => {
 	const orderElement = document.querySelector(`#order-${order.id}`);
 	orderElement.innerHTML = `
-      <p>You have arrived at your destination!</p>
+      <h3>You have arrived at your destination!</h3>
       <p>Order id: ${order.id}</p>
-      <p>Driver: ${order.driver.name}</p>`;
+      <p>Driver: ${order.driver.name}</p>
+		<p>From: ${order.currentLocation}</p>
+		<p>To: ${order.destination}</p>
+		<p>Price: ${order.price}</p>
+	`;
 });

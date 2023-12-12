@@ -92,10 +92,34 @@ input[type="submit"]:hover {
    background-color: #8a5d3b;
 }
 
+.process{
+   background-color: burlywood;
+   padding: 1em;
+   margin: 1em 0;
+   text-align: center;
+   border-radius: 5px;
+   max-width: 300px;
+}
+.process img{
+   width: 100px;
+}
+.process h3, .order h3{
+	font-family: var(--font-heading);
+}
+
 .orders{
    border: 2px solid black;
    display: grid;
    grid-template-columns: 1fr 1fr;
    gap: 1em;
    margin-bottom: 2em;
+   display: flex;
+}
+
+.orders .order{
+   border: 1px solid burlywood;
+   padding: 1em;
+   margin: 1em;
+   gap: 1em;
+   border-radius: 5px;
 }
