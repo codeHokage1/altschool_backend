@@ -1,4 +1,4 @@
-const serverUrl = `http://localhost:5001`;
+const serverUrl = `https://picklyft.onrender.com/`;
 const form = document.querySelector("#login-form");
 
 console.log(serverUrl);

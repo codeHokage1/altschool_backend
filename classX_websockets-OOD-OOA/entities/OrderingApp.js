@@ -134,7 +134,7 @@ class OrderingApp {
 
 				this.orders = this.orders.filter((order) => order.id != newOrder.id); // remove the order from the orders array
 			}
-		}, 10000); // if the order is not accepted in 1 minute, emit this
+		}, 60000); // if the order is not accepted in 1 minute, emit this
 		console.log("Order at BE before returning for drivers: ", newOrder);
 		return newOrder;
 	}
