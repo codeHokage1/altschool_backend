@@ -4,6 +4,7 @@ const actionSection = document.querySelector(".action-section");
 const host = window.location.host;
 const protocol = window.location.protocol;
 
+console.log(host, protocol);
 form.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
