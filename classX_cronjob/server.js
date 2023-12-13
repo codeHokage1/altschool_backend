@@ -15,6 +15,13 @@ app.use(express.static("public"));
 // every 30 secs first
 cron.schedule("*/30 * * * * *", async () => {
 	console.log("Running a task every 30 seconds");
+   const birthdayTemplate = `
+      <img src="https://media.giphy.com/media/Qvns6NmhC1MBLKGbL1/giphy.gif" alt="Happy Birthday" />
+      <h1>Hey Champ!</h1>
+      <p>Some years back on this day, you were a new person in a new land. Look at you now, a super star! 🎉🎉🎉</p>
+      <p>Have fun today!</p>
+
+   `;
 	const today = new Date();
 	try {
 		const allUsers = await User.find({});
@@ -26,7 +33,7 @@ cron.schedule("*/30 * * * * *", async () => {
 
 		if (birthdayUsers.length > 0) {
 			birthdayUsers.forEach(async (user) => {
-				await emailSender("Happy birthday", "<h1>Hey! Happy Birthday!</h1>", user.email);
+				await emailSender("A Champion was born today!", birthdayTemplate, user.email);
 			});
 		}
 	} catch (error) {
