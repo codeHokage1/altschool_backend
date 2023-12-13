@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const cron = require("node-cron");
+const cors = require("cors");
 
 const connectDB = require("./config/dbConfig");
 const User = require("./models/User");
@@ -10,6 +11,7 @@ const emailSender = require("./utils/email");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
+app.use(cors());
 
 // check DB every day at 7:00 AM
 cron.schedule("0 7 * * *", async () => {
