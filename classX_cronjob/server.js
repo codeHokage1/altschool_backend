@@ -13,8 +13,11 @@ app.use(express.static('public'));
 
 // check DB every day at 7:00 AM
 // dev: send email every 30secs
-cron.schedule('*/30 * * * * *', () => {
+cron.schedule('*/30 * * * * *', async () => {
   console.log('running a task every 30 secs');
+
+//   const emailResponse = await emailSender("Happy Birthday", "<h1>Happy Birthday</h1>", "farhan@gmail.com");
+//   console.log(emailResponse);
 });
 
 app.post("/birthdays", async (req, res) => {

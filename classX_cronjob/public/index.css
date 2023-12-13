@@ -78,6 +78,25 @@ input[type="submit"]{
 input[type="submit"]:hover{
    background-color: rgb(4, 101, 101);
 }
+.loading img, .success img, .error img{
+   width: 200px;
+}
+.loading{
+   text-align: center;
+   border: 2px double grey;
+   padding: 1em;
+}
+.success{
+   text-align: center;
+   border: 2px double green;
+   padding: 1em;
+}
+.error{
+   text-align: center;
+   border: 2px double red;
+   padding: 1em;
+}
+
 
 .footer{
    margin-top: 3em;
