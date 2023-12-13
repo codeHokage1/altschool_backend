@@ -54,3 +54,8 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 ## Session 17 - Testing
 ## Session 18 - Recap on Testing
 ## Session 19 - Error Handling and Logging
+
+## Class X WebSockets - OOD & OOA
+- Class exercise and assignment: https://docs.google.com/document/d/17_NYxeGcoknCcuW3RRDsV4faDucxDTELyeH5FVyK6pE/edit
+- My deployed solution: https://picklyft.onrender.com
+  
