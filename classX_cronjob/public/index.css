@@ -1,0 +1,79 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root{
+   --font-heading: 'Dancing Script', cursive;
+   --font-body: 'Quicksand', sans-serif;
+}
+
+body {
+   font-family: var(--font-body);
+   font-size: 1.2rem;
+   line-height: 1.5;
+}
+body p{
+   margin: 0;
+}
+
+main{
+   margin: 0 auto;
+   width: 60%;
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.header{
+   display: flex;
+   align-items: center;
+   gap: 1em;
+}
+.header h1{
+   font-family: var(--font-heading);
+   font-size: 3rem;
+}
+.brand-note{
+   margin: 1em 0;
+}
+
+form{
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+}
+.form-row{
+   display: grid;
+   grid-template-columns: 30% 70%;
+   margin-bottom: 1em;
+}
+.form-row label{
+   font-weight: bold;
+}
+input{
+   padding: .5em;
+   font-size: 1.1rem;
+   border-radius: 5px;
+   outline: none;
+   border: 1px solid grey;
+   font-family: inherit;
+}
+input[type="submit"]{
+   cursor: pointer;
+   outline: none;
+   border: none;
+   background-color: rgb(5, 160, 160);
+   color: white;
+   font-weight: bolder;
+}
+input[type="submit"]:hover{
+   background-color: rgb(4, 101, 101);
+}
+
+.footer{
+   margin-top: 3em;
+}
