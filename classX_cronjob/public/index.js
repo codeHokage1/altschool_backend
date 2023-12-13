@@ -4,7 +4,6 @@ const actionSection = document.querySelector(".action-section");
 const host = window.location.host;
 const protocol = window.location.protocol;
 
-console.log(host, protocol);
 form.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
@@ -24,7 +23,7 @@ form.addEventListener("submit", async (e) => {
 	};
 
 	try {
-		const response = await fetch(`${protocol}://${host}/birthdays`, {
+		const response = await fetch(`${protocol}/birthdays`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
