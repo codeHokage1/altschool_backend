@@ -51,6 +51,4 @@ form.addEventListener("submit", async (e) => {
          <h3>Oops! An error occured. Please try again in a short while.</h3>
       `;
 	}
-
-	// console.log(data);
 });
