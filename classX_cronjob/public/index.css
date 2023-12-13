@@ -39,8 +39,12 @@ main{
 }
 .brand-note{
    margin: 1em 0;
+   text-align: center;
 }
 
+.action-section{
+   margin: 1em 0;
+}
 form{
    display: flex;
    flex-direction: column;
@@ -48,7 +52,7 @@ form{
 }
 .form-row{
    display: grid;
-   grid-template-columns: 30% 70%;
+   grid-template-columns: .7fr 1fr;
    margin-bottom: 1em;
 }
 .form-row label{
