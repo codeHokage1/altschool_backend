@@ -55,7 +55,10 @@ This repo contains all tasks and assignments during my study in Backend Engineer
 ## Session 18 - Recap on Testing
 ## Session 19 - Error Handling and Logging
 
-## Class X WebSockets - OOD & OOA
+## Session X WebSockets - OOD & OOA
 - Class exercise and assignment: https://docs.google.com/document/d/17_NYxeGcoknCcuW3RRDsV4faDucxDTELyeH5FVyK6pE/edit
 - My deployed solution: https://picklyft.onrender.com
-  
+
+## Session X - Cron Job
+- Assignment: https://docs.google.com/document/d/13UOnOIhnS1YAzvshegJD0u87f2St_U64i7HfPjhN16g/edit
+- My deployed solution: https://cake-alert.onrender.com
