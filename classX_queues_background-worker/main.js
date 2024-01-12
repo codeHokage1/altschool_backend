@@ -6,7 +6,7 @@ const { WorkQueue } = require("./queue");
 app.use(express.json());
 
 app.post("/app", (req, res) => {
-	WorkQueue().addToQueue({...req.body, jobName: "doSomething"});
+	WorkQueue().addToQueue({...req.body, jobName: "SendEmail"});
 	res.json({
 		message: "Hello there!"
 	});
