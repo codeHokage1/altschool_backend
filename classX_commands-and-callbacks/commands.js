@@ -13,20 +13,24 @@ const list = async () => {
 
 	for (let task of allTasks) {
 		if (task.isCompleted) {
-			console.log("--->", chalk.strikethrough.yellow(task));
+			console.log("--->", chalk.strikethrough.yellow(task.text));
 		} else {
-			console.log("--->", chalk.green(task));
+			console.log("--->", chalk.blueBright(task.text));
 		}
 	}
 	process.exit(0);
 };
 
-const add = (todo) => {
+const add = async (todo) => {
+	const newTask = await Todo.create({ text: todo });
 	console.log("Adding a task: ", todo);
+	console.log(chalk.green("Added a new task!"));
+
 	process.exit(0);
 };
 const commands = {
-   add, list
-}
+	add,
+	list
+};
 
-export default commands
+export default commands;
