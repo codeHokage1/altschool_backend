@@ -10,4 +10,6 @@ program.command("list").description("List all todos").action(commands.list);
 
 program.command("add <todo>").description("Add new todo").action(commands.add);
 
+program.command("complete <todoID>").description("Complete a task").action(commands.complete)
+
 program.parse();

@@ -5,6 +5,10 @@ const TodoSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+   taskID: {
+      type: String,
+      required: true
+   },
 	isCompleted: {
 		type: Boolean,
 		default: false
