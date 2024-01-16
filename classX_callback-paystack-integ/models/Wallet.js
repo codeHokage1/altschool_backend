@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const { ytid } = require("ytid");
 
-const UserSchema = new mongoose.Schema({
-	userName: {
+const Wallet = new mongoose.Schema({
+	_id: {
 		type: String,
-		required: true
+		default: ytid()
 	},
 	email: {
 		type: String,
-		required: true,
-		unique: true
-	},
-	password: {
-		type: String,
 		required: true
+	},
+	balance: {
+		type: Number,
+		required: true,
+      default: 0
 	},
 	createdAt: {
 		type: Date,
@@ -21,13 +21,4 @@ const UserSchema = new mongoose.Schema({
 	}
 });
 
-
-UserSchema.pre("save", async function (next) {
-	const user = this;
-	const hash = await bcrypt.hash(this.password, 10);
-
-	this.password = hash;
-	next();
-});
-
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Wallet", Wallet);
