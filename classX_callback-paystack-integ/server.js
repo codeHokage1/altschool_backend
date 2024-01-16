@@ -41,12 +41,9 @@ app.post("/init-payment", async (req, res) => {
 			reference: transaction._id
 		};
 
-		console.log(data);
-		
-      const headers = {
-         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-       };
-
+		const headers = {
+			Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
+		};
 
 		const response = await axios.post("https://api.paystack.co/transaction/initialize", data, {
 			headers
@@ -63,6 +60,59 @@ app.post("/init-payment", async (req, res) => {
 		});
 	}
 });
+
+app.get("/paystack/success", (req, res) => {
+   console.log(req);
+
+   res.json({
+      success: true,
+      message: "Transaction successful"
+   })
+});
+
+app.post("/paystack/callback", async (req, res) => {
+	const response = req.body.data;
+
+	const foundTransaction = await Transaction.findOne({ _id: response.reference });
+	if (!foundTransaction) {
+		return res.status(404).json({
+			success: false,
+			message: "Transaction not found"
+		});
+	}
+
+	// success
+	if (req.body.event && req.body.event === "charge.success") {
+		const foundWallet = await Wallet.findOne({ _id: foundTransaction.wallet_id });
+		foundWallet.balance += foundTransaction.amount;
+		foundWallet.save();
+
+		foundTransaction.status = "success";
+		foundTransaction.save();
+
+		return res.status(200).json({
+			success: true,
+			message: "Transaction successful"
+		});
+	}
+
+	// failed
+	if (req.body.event && req.body.event === "charge.failed") {
+		foundTransaction.status = "failed";
+		foundTransaction.save();
+
+		return res.status(200).json({
+			success: false,
+			message: "Transaction failed"
+		});
+	}
+
+	return res.status(200).json({
+		success: false,
+		message: "An error occurred. Kindly reach out"
+	});
+});
+
 
 app.listen(4500, () => {
 	connectDB();
