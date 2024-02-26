@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 // import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LoginDto } from './dto/login-auth.dto';
@@ -6,11 +10,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/auth/entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private jwtService: JwtService,
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
@@ -18,9 +24,18 @@ export class AuthService {
     newUser.password = await bcrypt.hash(newUser.password, 10);
     await newUser.save();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {password, ...user} = newUser.toJSON();
+
+    const payload = { sub: newUser._id, name: newUser.name };
+    const token = await this.jwtService.signAsync(payload);
+
     return {
       message: 'User created',
-      data: newUser,
+      data: {
+        user: user,
+        token,
+      },
     };
   }
 
@@ -37,12 +52,22 @@ export class AuthService {
       foundUser.password,
     );
     if (!isPasswordValid) {
-      throw new NotFoundException('Invalid password. Please try again.');
+      // throw new NotFoundException('Invalid password. Please try again.');
+      throw new UnauthorizedException('Invalid password. Please try again.');
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {password, ...user} = foundUser.toJSON();
+
+    const payload = { sub: foundUser._id, name: foundUser.name };
+    const token = await this.jwtService.signAsync(payload);
 
     return {
       message: 'Login successful',
-      data: foundUser,
+      data: {
+        user: user,
+        token,
+      },
     };
   }
 }
