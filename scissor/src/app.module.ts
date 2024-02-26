@@ -6,6 +6,7 @@ import { ProfileModule } from './profile/profile.module';
 import { LinksModule } from './links/links.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { WildcardModule } from './wildcard/wildcard.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     ProfileModule,
     LinksModule,
+    WildcardModule,
     MongooseModule.forRoot(process.env.MONGO_URI),
   ],
   controllers: [AppController],

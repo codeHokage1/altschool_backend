@@ -14,7 +14,7 @@ export class Link {
 
   @Prop(
     raw({
-      engagements: { type: String, default: 0 },
+      engagements: { type: Number, default: 0 },
       locations: { type: [String], default: [] },
     }),
   )
