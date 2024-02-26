@@ -12,6 +12,9 @@ export class Link {
   @Prop({ required: true })
   scissorURL: string;
 
+  @Prop({ default: ''})
+  customAlias: string;
+
   @Prop(
     raw({
       engagements: { type: Number, default: 0 },

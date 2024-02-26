@@ -15,6 +15,10 @@ export class LinksService {
     @InjectModel(Link.name) private readonly linkModel: Model<Link>,
   ) {}
 
+  // refineUrl(url: string) {
+  //   return normalizeUrl(url);
+  // }
+
   async create(req: any, createLinkDto: CreateLinkDto) {
     // createLinkDto.originalURL = normalizeUrl(createLinkDto.originalURL);
     // const parsedURL = url.parse(createLinkDto.originalURL);
@@ -27,12 +31,25 @@ export class LinksService {
     // });
 
     // console.log(createLinkDto.originalURL);
+    // createLinkDto.originalURL = this.refineUrl(createLinkDto.originalURL);
+    // console.log(createLinkDto.originalURL);
 
     const loggedInUser = req.user;
+    if(createLinkDto.customAlias){
+      const existingLink = await this.linkModel.findOne({ customAlias: createLinkDto.customAlias });
+      if (existingLink) {
+        return new BadRequestException('This alias is already in use. Kindly choose another one.');
+      }
+    }
+
+    const foundLink = await this.linkModel.findOne({ originalURL: createLinkDto.originalURL });
+    if (foundLink) {
+      return new BadRequestException("You already shortened this URL. Kindly check your dashboard for the link.");
+    }
+
     if (!validURL.isUri(createLinkDto.originalURL)) {
       return new BadRequestException(
-        'This URL is invalid. Kindly check and try again.',
-        { cause: new Error(), description: 'Some error description' },
+        'This URL is invalid. Kindly check and try again. Also ensure that your URL is in the form: http://www.example.com or https://www.example.com.',
       );
       // return new HttpException('This URL is invalid. Kindly check and try again.', HttpStatus.BAD_REQUEST)
     }
