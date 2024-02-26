@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
-import { UpdateLinkDto } from './dto/update-link.dto';
+// import { UpdateLinkDto } from './dto/update-link.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @UseGuards(AuthGuard)
@@ -10,13 +10,13 @@ export class LinksController {
   constructor(private readonly linksService: LinksService) {}
 
   @Post()
-  create(@Body() createLinkDto: CreateLinkDto) {
-    return this.linksService.create(createLinkDto);
+  create(@Body() createLinkDto: CreateLinkDto, @Request() req) {
+    return this.linksService.create(req, createLinkDto);
   }
 
   @Get()
-  findAll() {
-    return this.linksService.findAll();
+  findAll(@Request() req) {
+    return this.linksService.findAll(req);
   }
 
   @Get(':id')
@@ -24,10 +24,10 @@ export class LinksController {
     return this.linksService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
-    return this.linksService.update(+id, updateLinkDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
+  //   return this.linksService.update(+id, updateLinkDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
