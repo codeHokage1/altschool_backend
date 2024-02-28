@@ -8,6 +8,7 @@ import { ytid } from 'ytid';
 import * as validURL from 'valid-url';
 // import normalizeUrl from 'normalize-url';
 // import * as url from 'url';
+import * as QRCode from 'qrcode';
 
 @Injectable()
 export class LinksService {
@@ -35,16 +36,24 @@ export class LinksService {
     // console.log(createLinkDto.originalURL);
 
     const loggedInUser = req.user;
-    if(createLinkDto.customAlias){
-      const existingLink = await this.linkModel.findOne({ customAlias: createLinkDto.customAlias });
+    if (createLinkDto.customAlias) {
+      const existingLink = await this.linkModel.findOne({
+        customAlias: createLinkDto.customAlias,
+      });
       if (existingLink) {
-        return new BadRequestException('This alias is already in use. Kindly choose another one.');
+        return new BadRequestException(
+          'This alias is already in use. Kindly choose another one.',
+        );
       }
     }
 
-    const foundLink = await this.linkModel.findOne({ originalURL: createLinkDto.originalURL });
+    const foundLink = await this.linkModel.findOne({
+      originalURL: createLinkDto.originalURL,
+    });
     if (foundLink) {
-      return new BadRequestException("You already shortened this URL. Kindly check your dashboard for the link.");
+      return new BadRequestException(
+        'You already shortened this URL. Kindly check your dashboard for the link.',
+      );
     }
 
     if (!validURL.isUri(createLinkDto.originalURL)) {
@@ -62,10 +71,22 @@ export class LinksService {
       URLPath = `${process.env.baseURL}/${ytid()}`;
     }
 
+    // const qrCodeURL = await qrCode.to(URLPath);
+    const qrCodeURL = await QRCode.toDataURL(URLPath);
+    // await QRCode.toDataURL(URLPath, (err, url) => {
+    //   if (err) {
+    //     throw new BadRequestException(
+    //       'An error occurred while generating QR code',
+    //     );
+    //   }
+    //   console.log(url);
+    // });
+
     const newLink = new this.linkModel({
       ...createLinkDto,
       userID: loggedInUser.sub,
       scissorURL: URLPath,
+      QRCode: qrCodeURL
     });
     await newLink.save();
 
