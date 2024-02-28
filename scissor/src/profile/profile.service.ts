@@ -1,26 +1,57 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
+// import { CreateProfileDto } from './dto/create-profile.dto';
+// import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateAuthDto } from 'src/auth/dto/update-auth.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from 'src/auth/entities/user.entity';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ProfileService {
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+  ) {}
+
+  // create(createProfileDto: CreateProfileDto) {
+  //   return 'This action adds a new profile';
+  // }
+
+  // findAll() {
+  //   return `This action returns all profile`;
+  // }
+
+  async findProfile(req: any) {
+    const loggedInUser = req.user;
+    // return loggedInUser;
+    const foundUser = await this.userModel.findOne({
+      _id: loggedInUser.sub,
+    });
+    return {
+      message: 'Your profile details',
+      data: foundUser,
+    };
   }
 
-  findAll() {
-    return `This action returns all profile`;
+  async update(updateAuthDto: UpdateAuthDto, req: any) {
+    const loggedInUser = req.user;
+    const updatedProfile = await this.userModel.findOneAndUpdate(
+      { _id: loggedInUser.sub },
+      updateAuthDto,
+      { new: true },
+    );
+
+    return {
+      message: 'Profile updated',
+      data: updatedProfile,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profile`;
-  }
-
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  async remove(req: any) {
+    const loggedInUser = req.user;
+    await this.userModel.findOneAndDelete({ _id: loggedInUser.sub });
+    return {
+      message: 'Profile deleted',
+      data: null,
+    };
   }
 }
