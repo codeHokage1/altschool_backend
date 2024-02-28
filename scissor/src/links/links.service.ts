@@ -1,13 +1,16 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateLinkDto } from './dto/create-link.dto';
-// import { UpdateLinkDto } from './dto/update-link.dto';
+import { UpdateLinkDto } from './dto/update-link.dto';
 import { Link } from './entities/link.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ytid } from 'ytid';
 import * as validURL from 'valid-url';
-// import normalizeUrl from 'normalize-url';
-// import * as url from 'url';
 import * as QRCode from 'qrcode';
 
 @Injectable()
@@ -16,25 +19,7 @@ export class LinksService {
     @InjectModel(Link.name) private readonly linkModel: Model<Link>,
   ) {}
 
-  // refineUrl(url: string) {
-  //   return normalizeUrl(url);
-  // }
-
   async create(req: any, createLinkDto: CreateLinkDto) {
-    // createLinkDto.originalURL = normalizeUrl(createLinkDto.originalURL);
-    // const parsedURL = url.parse(createLinkDto.originalURL);
-    // createLinkDto.originalURL = url.format({
-    //   protocol: 'https',
-    //   hostname: parsedURL.hostname,
-    //   pathname: parsedURL.pathname,
-    //   search: parsedURL.search,
-    //   port: parsedURL.port,
-    // });
-
-    // console.log(createLinkDto.originalURL);
-    // createLinkDto.originalURL = this.refineUrl(createLinkDto.originalURL);
-    // console.log(createLinkDto.originalURL);
-
     const loggedInUser = req.user;
     if (createLinkDto.customAlias) {
       const existingLink = await this.linkModel.findOne({
@@ -71,22 +56,13 @@ export class LinksService {
       URLPath = `${process.env.baseURL}/${ytid()}`;
     }
 
-    // const qrCodeURL = await qrCode.to(URLPath);
     const qrCodeURL = await QRCode.toDataURL(URLPath);
-    // await QRCode.toDataURL(URLPath, (err, url) => {
-    //   if (err) {
-    //     throw new BadRequestException(
-    //       'An error occurred while generating QR code',
-    //     );
-    //   }
-    //   console.log(url);
-    // });
 
     const newLink = new this.linkModel({
       ...createLinkDto,
       userID: loggedInUser.sub,
       scissorURL: URLPath,
-      QRCode: qrCodeURL
+      QRCode: qrCodeURL,
     });
     await newLink.save();
 
@@ -104,19 +80,113 @@ export class LinksService {
       message: 'All your links',
       data: userLinks,
     };
-
-    // return `This action returns all links for user: ${JSON.stringify(req.user)}`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} link`;
+  async findOne(id: string, req: any) {
+    try {
+      const loggedInUser = req.user;
+      const foundLink = await this.linkModel.findOne({
+        _id: id,
+        userID: loggedInUser.sub,
+      });
+      if (!foundLink) {
+        return new NotFoundException(
+          `You don't have a link with the ID: ${id}`,
+        );
+      }
+      return {
+        message: 'Your link',
+        data: foundLink,
+      };
+    } catch (error) {
+      if (error.message.includes('Cast to ObjectId failed for value')) {
+        return new HttpException(
+          'Your link ID is invalid. Kindly check and try again.',
+          400,
+        );
+      }
+      return new HttpException(error, 500);
+    }
   }
 
-  // update(id: number, updateLinkDto: UpdateLinkDto) {
-  //   return `This action updates a #${id} link`;
-  // }
+  async update(id: string, updateLinkDto: UpdateLinkDto, req: any) {
+    try {
+      const loggedInUser = req.user;
+      const foundLink = await this.linkModel.findOne({
+        _id: id,
+        userID: loggedInUser.sub,
+      });
+      if (!foundLink) {
+        return new NotFoundException(
+          `You don't have a link with the ID: ${id}`,
+        );
+      }
 
-  remove(id: number) {
-    return `This action removes a #${id} link`;
+      if (updateLinkDto.customAlias) {
+        const foundLinkWithAlias = await this.linkModel.findOne({
+          customAlias: updateLinkDto.customAlias,
+        });
+        if (foundLinkWithAlias) {
+          return new BadRequestException(
+            'This alias is already in use. Kindly choose another one.',
+          );
+        }
+      }
+
+      const updatedLink = await this.linkModel.findByIdAndUpdate(
+        { _id: id },
+        {
+          ...updateLinkDto,
+          scissorURL: `${process.env.baseURL}/${updateLinkDto.customAlias}`,
+        },
+        {
+          new: true,
+        },
+      );
+
+      return {
+        message: 'Your link has been updated',
+        data: updatedLink,
+      };
+    } catch (error) {
+      if (error.message.includes('Cast to ObjectId failed for value')) {
+        return new HttpException(
+          'Your link ID is invalid. Kindly check and try again.',
+          400,
+        );
+      }
+      return new HttpException(error, 500);
+    }
+  }
+
+  async remove(id: string, req: any) {
+    try {
+      const loggedInUser = req.user;
+      const foundLink = await this.linkModel.findOne({
+        _id: id,
+        userID: loggedInUser.sub,
+      });
+      if (!foundLink) {
+        return new NotFoundException(
+          `You don't have a link with the ID: ${id}`,
+        );
+      }
+
+      await this.linkModel.deleteOne({ _id: id });
+
+      return {
+        message: 'Your link has been deleted',
+        data: null,
+      };
+      
+    } catch (error) {
+      if (error.message.includes('Cast to ObjectId failed for value')) {
+        return new HttpException(
+          'Your link ID is invalid. Kindly check and try again.',
+          400,
+        );
+      }
+      return new HttpException(error, 500);
+    }
   }
 }

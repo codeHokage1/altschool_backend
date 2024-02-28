@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, Patch } from '@nestjs/common';
 import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
-// import { UpdateLinkDto } from './dto/update-link.dto';
+import { UpdateLinkDto } from './dto/update-link.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @UseGuards(AuthGuard)
@@ -20,17 +20,17 @@ export class LinksController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.linksService.findOne(+id);
+  findOne(@Param('id') id: string, @Request() req) {
+    return this.linksService.findOne(id, req);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
-  //   return this.linksService.update(+id, updateLinkDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto, @Request() req){
+    return this.linksService.update(id, updateLinkDto, req);
+  }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.linksService.remove(+id);
+  remove(@Param('id') id: string, @Request() req){
+    return this.linksService.remove(id, req);
   }
 }
