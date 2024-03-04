@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -20,6 +21,12 @@ export class AuthService {
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
+    const foundUser = await this.userModel.findOne({ email: createAuthDto.email });
+    if (foundUser) {
+      throw new BadRequestException(
+        `An account has already been created with ${createAuthDto.email}. Please login.`,
+      );
+    }
     const newUser = await new this.userModel(createAuthDto);
     newUser.password = await bcrypt.hash(newUser.password, 10);
     await newUser.save();
