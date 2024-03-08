@@ -115,6 +115,8 @@ loginForm.onsubmit = async function (e) {
 
 		if (response.ok) {
 			console.log("Form data sent successfully!");
+			console.log(json);
+			localStorage.setItem("token", json.data.token);
 			window.location.href = `dashboard.html`;
 			// Handle successful response here
 		} else {

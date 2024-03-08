@@ -4,6 +4,15 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Scissor - Your Dashboard</title>
+      <link rel="stylesheet" href="./styles/dashboard.css">
+
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
+
 	</head>
 	<body>
 		<header>
@@ -22,14 +31,56 @@
 
 			<div class="auth-nav">
 				<ul>
-					<li id="reg-btn">Get Started</li>
-					<li id="login-btn">Login</li>
+					<li><img src="https://img.icons8.com/carbon-copy/100/user-female-circle.png" alt="Profile Avatar"/>  <p>Profile</p></li>
 				</ul>
 			</div>
 		</header>
 
-		<main></main>
+		<main>
+         <div class="dashboard-panel">
+            <h2>Dashboard</h2>
+
+            <div class="dashboard-nav">
+               <img class="log-out" src="https://img.icons8.com/carbon-copy/100/exit.png" alt="Log out"/>
+            </div>
+         </div>
+
+         <div class="create-and-search">
+            <button class="create-link">Scissor a new link ✂️</button>
+            <div class="search">
+               <input type="text" placeholder="Search for your link" />
+               <button>🔍</button>
+            </div>
+
+         </div>
+
+         <div class="link-list">
+            <h3 class="links-heading">Your Scissor-ed Links:</h3>
+            <div class="link-card">
+               <div class="link-details">
+                  <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. </h3>
+                  <a id="link-to-copy" href="#">Scissor-ed URL</a>
+                  <div class="link-analysis">
+                     <p>10 Clicks</p>
+                     <p>📅 01/01/2021</p>
+                  </div>
+               </div>
+               <div class="link-actions">
+                  <div class="link-action copy-to-clipboard">
+                     <img src="https://img.icons8.com/dusk/64/copy.png" alt="copy"/>
+                     <p>Copy</p>
+                  </div>
+                  <div class="link-action delete-link">
+                     <img src="https://img.icons8.com/plasticine/100/filled-trash.png" alt="filled-trash"/>
+                     <p>Delete</p>
+                  </div>
+               </div>
+               
+            </div>
+      </main>
 
 		<footer></footer>
+
+		<script src="./scripts/dashboard.js"></script>
 	</body>
 </html>

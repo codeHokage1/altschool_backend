@@ -46,6 +46,7 @@ ul li a {
 }
 ul li:hover {
 	border-bottom: 2px grey dashed;
+	cursor: pointer;
 }
 
 .hero {
