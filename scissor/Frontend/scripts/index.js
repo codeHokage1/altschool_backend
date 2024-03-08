@@ -18,7 +18,7 @@ window.onclick = function (event) {
 	console.log(event.target);
 };
 
-const apiURL = "https://721f-105-113-79-59.ngrok-free.app";
+const apiURL = "https://d68f-105-113-33-165.ngrok-free.app";
 
 // When the user clicks on the button, open the modal
 regBtn.onclick = function () {
@@ -95,39 +95,40 @@ regForm.onsubmit = async function (e) {
 };
 
 loginForm.onsubmit = async function (e) {
-   e.preventDefault();
-   let formData = new FormData(loginForm);
-   let data = {};
-   for (let [key, value] of formData.entries()) {
-      data[key] = value;
-   }
+	e.preventDefault();
+	let formData = new FormData(loginForm);
+	let data = {};
+	for (let [key, value] of formData.entries()) {
+		data[key] = value;
+	}
 
-   try {
-      const response = await fetch(`${apiURL}/auth/login`, {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json"
-         },
-         body: JSON.stringify(data)
-      });
+	try {
+		const response = await fetch(`${apiURL}/auth/login`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(data)
+		});
 
-      const json = await response.json();
+		const json = await response.json();
 
-      if (response.ok) {
-         console.log("Form data sent successfully!");
-         // Handle successful response here
-      } else {
-         console.error("Error:", response.statusText);
-         loginError.style.display = "block";
-         loginError.innerHTML = json.message;
-         // Handle error response here
-      }
+		if (response.ok) {
+			console.log("Form data sent successfully!");
+			window.location.href = `dashboard.html`;
+			// Handle successful response here
+		} else {
+			console.error("Error:", response.statusText);
+			loginError.style.display = "block";
+			loginError.innerHTML = json.message;
+			// Handle error response here
+		}
 
-      // const json = await response.json();
-      // console.log(json);
-      // console.log(response);
-   } catch (error) {
-      console.error("Error:", error);
-      // Handle network errors here
-   }
-}
+		// const json = await response.json();
+		// console.log(json);
+		// console.log(response);
+	} catch (error) {
+		console.error("Error:", error);
+		// Handle network errors here
+	}
+};
