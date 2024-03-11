@@ -7,6 +7,8 @@ if (!token) {
 	window.location.href = "index.html";
 }
 
+document.addEventListener("DOMContentLoaded", getLinks);
+
 let scissorModal = document.getElementById("scissor-modal");
 let closeScissor = document.getElementById("close-scissor");
 let scissorForm = document.getElementById("scissor-form");
@@ -70,27 +72,87 @@ scissorForm.onsubmit = async function (e) {
 	}
 };
 
-const getLinks = async () => {
-	try {
-		let response = await fetch(`${apiURL}/links`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`
-			}
-		});
-		let data = await response.json();
-		console.log(data);
-		console.log(response);
-		if (response.ok) {
-			console.log("success");
-			let links = data.data;
-			if (links.length === 0) {
-				linksContainter.innerHTML = `<p>No links available. Scissor a link to get started.</p>`;
+// async function getLinks() {
+// 	try {
+// 		let response = await fetch(`${apiURL}/links`, {
+// 			method: "GET",
+// 			headers: {
+// 				"Content-Type": "application/json",
+// 				Authorization: `Bearer ${token}`
+// 			}
+// 		});
+// 		let data = await response.json();
+// 		console.log(data);
+// 		console.log(response);
+// 		if (response.ok) {
+// 			console.log("success");
+// 			let links = data.data;
+// 			if (links.length === 0) {
+// 				linksContainter.innerHTML = `<p>No links available. Scissor a link to get started.</p>`;
+// 			} else {
+// 				links = links.reverse();
+// 				links.forEach((link, index) => {
+// 					linksContainter.innerHTML += `
+// 						<div class="link-card">
+// 							<div class="link-details">
+// 								<h3>${link.description}</h3>
+// 								<a id="link-to-copy-${index}" href="${link.scissorURL}" target="_blank">${link.scissorURL}</a>
+// 								<p class="original-link">${link.originalURL}</p>
+// 								<div class="link-analysis">
+// 									<p>${link.analytics.engagements} ${link.analytics.engagements === 1 ? "Click" : "Clicks"}</p>
+// 									<p>📅 ${new Date(link.createdAt).toDateString()}</p>
+// 								</div>
+// 							</div>
+// 							<div class="link-actions">
+// 								<div class="link-action copy-to-clipboard">
+// 									<img src="https://img.icons8.com/dusk/64/copy.png" alt="copy"/>
+// 									<p>Copy</p>
+// 								</div>
+// 								<div class="link-action delete-link" data-id="${link._id}">
+// 									<img src="https://img.icons8.com/plasticine/100/filled-trash.png" alt="filled-trash"/>
+// 									<p>Delete</p>
+// 								</div>
+// 							</div>
+// 						</div>
+// 						`;
+// 				});
+// 			}
+// 		} else {
+// 			console.error("Error:", response.statusText);
+// 			if (response.status === 401) {
+// 				localStorage.removeItem("token");
+// 				window.location.href = "index.html";
+// 			}
+// 		}
+// 	} catch (error) {
+// 		console.error("Error:", error);
+// 	}
+// };
+
+async function getLinks() {
+	await fetch(`${apiURL}/links`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`
+		}
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			console.log(data);
+			if (data.status === 401) {
+				localStorage.removeItem("token");
+				window.location.href = "index.html";
 			} else {
-				links = links.reverse();
-				links.forEach((link, index) => {
-					linksContainter.innerHTML += `
+				let links = data.data;
+				if (links.length === 0) {
+					linksContainter.innerHTML = `<p>No links available. Scissor a link to get started.</p>`;
+				} else {
+					links = links.reverse();
+					links.forEach((link, index) => {
+						linksContainter.innerHTML += `
 						<div class="link-card">
 							<div class="link-details">
 								<h3>${link.description}</h3>
@@ -106,67 +168,44 @@ const getLinks = async () => {
 									<img src="https://img.icons8.com/dusk/64/copy.png" alt="copy"/>
 									<p>Copy</p>
 								</div>
-								<div class="link-action delete-link">
+								<div class="link-action delete-link" data-id="${link._id}">
 									<img src="https://img.icons8.com/plasticine/100/filled-trash.png" alt="filled-trash"/>
 									<p>Delete</p>
 								</div>
-							</div>							
+							</div>
 						</div>
 						`;
-				});
+					});
+
+					const copyToClipboardButtons = document.querySelectorAll(".copy-to-clipboard");
+					const deleteLinkButtons = document.querySelectorAll(".delete-link");
+					console.log(copyToClipboardButtons.length);
+					console.log(deleteLinkButtons.length);
+
+					copyToClipboardButtons.forEach((button) => {
+						console.log(button);
+
+						button.addEventListener("click", function () {
+							console.log("clicked");
+							const copyText = button.parentElement.parentElement.querySelector("a");
+							console.log(copyText);
+							console.log(copyText.innerHTML);
+							const el = document.createElement("textarea");
+							el.style.display = "none";
+							el.value = copyText.innerHTML;
+							document.body.appendChild(el);
+							el.select();
+
+							// copyText.select();
+							el.setSelectionRange(0, 99999);
+							navigator.clipboard.writeText(copyText.innerHTML);
+						});
+					});
+				}
 			}
-		} else {
-			console.error("Error:", response.statusText);
-			if (response.status === 401) {
-				localStorage.removeItem("token");
-				window.location.href = "index.html";
-			}
-		}
-	} catch (error) {
-		console.error("Error:", error);
-	}
-};
+		})
+		.catch((error) => {
+			console.error("Error:", error);
+		});
+}
 
-getLinks();
-
-const copyToClipboardButtons = document.querySelectorAll(".copy-to-clipboard");
-console.log(copyToClipboardButtons.length);
-
-copyToClipboardButtons.forEach((button) => {
-	console.log(button);
-
-	button.addEventListener("click", function () {
-		console.log("clicked");
-		const copyText = button.parentElement.parentElement.querySelector("a");
-		console.log(copyText);
-		console.log(copyText.innerHTML);
-		const el = document.createElement("textarea");
-		el.style.display = "none";
-		el.value = copyText.innerHTML;
-		document.body.appendChild(el);
-		el.select();
-
-		// copyText.select();
-		el.setSelectionRange(0, 99999);
-		navigator.clipboard.writeText(copyText.innerHTML);
-	});
-});
-
-// for (let i = 0; i < copyToClipboard.length; i++) {
-// 	console.log(copyToClipboard[i]);
-// 	copyToClipboard[i].addEventListener("click", function () {
-// 		console.log("clicked");
-// 		const copyText = document.getElementById(`link-to-copy-${i}`);
-// 		console.log(copyText);
-// 		console.log(copyText.innerHTML);
-// 		const el = document.createElement("textarea");
-// 		el.style.display = "none";
-// 		el.value = copyText.innerHTML;
-// 		document.body.appendChild(el);
-// 		el.select();
-
-// 		// copyText.select();
-// 		el.setSelectionRange(0, 99999);
-// 		navigator.clipboard.writeText(copyText.innerHTML);
-// 	});
-// }
