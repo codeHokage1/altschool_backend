@@ -15,6 +15,7 @@ import { WildcardModule } from './wildcard/wildcard.module';
         isGlobal: true,
       },
     ),
+    
     AuthModule,
     ProfileModule,
     LinksModule,

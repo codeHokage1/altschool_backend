@@ -8,4 +8,7 @@ export class CreateLinkDto {
   @IsString()
   customAlias: string;
 
+  @IsString()
+  description?: string;
+
 }

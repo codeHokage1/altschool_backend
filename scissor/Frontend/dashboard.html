@@ -46,37 +46,57 @@
          </div>
 
          <div class="create-and-search">
-            <button class="create-link">Scissor a new link ✂️</button>
+            <button class="create-link" id="create-link">Scissor a new link ✂️</button>
             <div class="search">
                <input type="text" placeholder="Search for your link" />
                <button>🔍</button>
             </div>
-
          </div>
 
-         <div class="link-list">
+			<!-- Modal for Create Link -->
+			<div id="scissor-modal" class="modal">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>Scissor A Link</h3>
+						<span class="close" id="close-scissor">&times;</span>
+					</div>
+
+					<div class="modal-body">
+						<form id="scissor-form">
+							<div class="input-group">
+								<label for="originalURL">Original URL:</label>
+								<input type="text" id="originalURL" name="originalURL" required placeholder="https://www.example.com or http://example.com"/>
+							</div>
+
+							<div class="input-group">
+								<label for="scissorURL">Scissor-ed URL:</label>
+								<div>
+									<p>scissor.com/</p>
+									<input type="text" id="scissorURL" name="customAlias" placeholder="Optional custom back-half e.g 'farhan-slides'"/>
+								</div>
+							</div>
+
+							<div class="input-group">
+								<label for="description">Link Title/Description (Optional):</label>
+								<input type="text" id="description" name="description" placeholder="e.g Sodiq Farhan - Presentation Slides"/>
+							</div>
+
+							<div class="input-group">
+								<label for="expiration">Expiration Date (Optional):</label>
+								<input type="date" id="expiration" name="expirationDate" />
+							</div>
+
+							<button type="submit">Scissor!</button>
+							<p class="error" id="scissor-error">Errors will appear here!</p>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+         <div id="link-list">
             <h3 class="links-heading">Your Scissor-ed Links:</h3>
-            <div class="link-card">
-               <div class="link-details">
-                  <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. </h3>
-                  <a id="link-to-copy" href="#">Scissor-ed URL</a>
-                  <div class="link-analysis">
-                     <p>10 Clicks</p>
-                     <p>📅 01/01/2021</p>
-                  </div>
-               </div>
-               <div class="link-actions">
-                  <div class="link-action copy-to-clipboard">
-                     <img src="https://img.icons8.com/dusk/64/copy.png" alt="copy"/>
-                     <p>Copy</p>
-                  </div>
-                  <div class="link-action delete-link">
-                     <img src="https://img.icons8.com/plasticine/100/filled-trash.png" alt="filled-trash"/>
-                     <p>Delete</p>
-                  </div>
-               </div>
-               
-            </div>
+            
       </main>
 
 		<footer></footer>

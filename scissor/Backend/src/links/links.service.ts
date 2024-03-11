@@ -34,6 +34,7 @@ export class LinksService {
 
     const foundLink = await this.linkModel.findOne({
       originalURL: createLinkDto.originalURL,
+      userID: loggedInUser.sub
     });
     if (foundLink) {
       return new BadRequestException(
@@ -63,6 +64,7 @@ export class LinksService {
       userID: loggedInUser.sub,
       scissorURL: URLPath,
       QRCode: qrCodeURL,
+      description: createLinkDto.description ? createLinkDto.description : "Untitled Link",
     });
     await newLink.save();
 

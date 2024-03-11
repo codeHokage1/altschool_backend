@@ -18,7 +18,7 @@ window.onclick = function (event) {
 	console.log(event.target);
 };
 
-const apiURL = "https://d68f-105-113-33-165.ngrok-free.app";
+const apiURL = "https://233d-105-113-88-63.ngrok-free.app";
 
 // When the user clicks on the button, open the modal
 regBtn.onclick = function () {

@@ -15,6 +15,9 @@ export class Link {
   @Prop({ default: ''})
   customAlias: string;
 
+  @Prop()
+  description: string;
+
   @Prop(
     raw({
       engagements: { type: Number, default: 0 },
