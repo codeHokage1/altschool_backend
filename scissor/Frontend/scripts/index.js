@@ -77,6 +77,10 @@ regForm.onsubmit = async function (e) {
 
 		if (response.ok) {
 			console.log("Form data sent successfully!");
+			console.log(json);
+			localStorage.setItem("token", json.data.token);
+			localStorage.setItem("username", json.data.user.name);
+			window.location.href = `dashboard.html`;
 			// Handle successful response here
 		} else {
 			console.error("Error:", response.statusText);
@@ -117,8 +121,8 @@ loginForm.onsubmit = async function (e) {
 			console.log("Form data sent successfully!");
 			console.log(json);
 			localStorage.setItem("token", json.data.token);
+			localStorage.setItem("username", json.data.user.name);
 			window.location.href = `dashboard.html`;
-			// Handle successful response here
 		} else {
 			console.error("Error:", response.statusText);
 			loginError.style.display = "block";
