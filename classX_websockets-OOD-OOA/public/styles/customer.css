@@ -123,3 +123,28 @@ input[type="submit"]:hover {
    gap: 1em;
    border-radius: 5px;
 }
+
+/* media responsiveness for smaller screens */
+@media screen and (max-width: 768px) {
+	.container {
+		padding: 0;
+	}
+	.container section {
+		margin: 1em 0;
+	}
+	.container h2 {
+		font-size: 1.2rem;
+	}
+	.request-order form {
+		grid-template-columns: auto;
+	}
+	.process {
+		max-width: 100%;
+	}
+	.orders {
+		flex-direction: column;
+	}
+	.orders .order {
+		margin: 1em 0;
+	}
+}

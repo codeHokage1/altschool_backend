@@ -40,7 +40,7 @@ main p{
    margin: 0;
 }
 .brand img{
-   width: 150px;
+   width: 100px;
 }
 .info{
    display: flex;
@@ -123,4 +123,28 @@ button{
 button:hover{
    background-color: black;
    color: white;
+}
+
+/* styling for input test in form when on focus */
+input:focus{
+   border: 2px solid black;
+}
+
+/* media query for smaller screens */
+@media screen and (max-width: 768px){
+   body{
+      padding: 1.5em 1em;
+      height: auto;
+   }
+   main{
+      flex-direction: column;
+      gap: 2em;
+   }
+   .brand{
+      max-width: 100%;
+   }
+   .form{
+      width: 100%;
+      margin-left: 0;
+   }
 }

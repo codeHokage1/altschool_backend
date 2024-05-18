@@ -1,5 +1,6 @@
 const serverUrl = `https://picklyft.onrender.com`;
 const form = document.querySelector("#login-form");
+const cta = document.querySelector(".cta");
 
 console.log(serverUrl);
 
@@ -13,4 +14,9 @@ form.addEventListener("submit", (event) => {
 	} else if (userType === "driver") {
 		window.location.href = `${serverUrl}/driver?username=${username}`;
 	}
+});
+
+// focus on the username input field when cta is clicked
+cta.addEventListener("click", () => {
+	document.querySelector("#username").focus();
 });

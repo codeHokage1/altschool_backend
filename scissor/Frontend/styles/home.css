@@ -64,6 +64,54 @@ ul li:hover {
 .hero img {
 	width: 500px;
 }
+.hero-btn {
+	border: none;
+	outline: none;
+	padding: 1em 1.3em;
+	font-size: 1.3rem;
+	margin: 1em 0;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: skyblue;
+	font-family: inherit;
+	font-weight: bold;
+	color: white;
+}
+.hero-btn:hover {
+	background-color: #00bfff;
+}
+
+.second-cta {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 2em;
+	gap: 1em;
+}
+.second-cta h3 {
+	font-size: 2rem;
+	font-family: "Exo 2", sans-serif;
+}
+.second-cta span {
+	color: #00bfff;
+}
+.second-cta button {
+	border: none;
+	outline: none;
+	padding: 1em 1.3em;
+	font-size: 1.3rem;
+	margin: 1em 0;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: skyblue;
+	font-family: inherit;
+	font-weight: bold;
+	color: white;
+}
+.second-cta button:hover {
+	background-color: #00bfff;
+}
 
 .why-scissor {
 	padding: 0 3em;
@@ -104,9 +152,14 @@ ul li:hover {
 	border: 1px solid #888;
 	width: 80%; /* Could be more or less, depending on screen size */
 }
-.modal-header{
+.modal-header {
 	display: flex;
 	justify-content: space-between;
+}
+.modal-body{
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
 
 }
 
@@ -126,7 +179,7 @@ ul li:hover {
 	cursor: pointer;
 }
 
-.error{
+.error {
 	color: red;
 	display: none;
 }
